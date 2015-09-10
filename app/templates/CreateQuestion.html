@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Create Question</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+
+  <link href="/static/CreateQuestion_CSS.css" rel="stylesheet">
+  <script src="/static/CreateQuestion_script.js"></script>
+
+</head>
+<body>
+
+
+<div class="container">
+
+    <div class="row">
+    <div class = "col-md-12">
+  <h2>Create Question</h2>
+   <form role="form">
+    <div class="form-group">
+      <label for="Question">Question</label>
+      <textarea class="form-control" rows="5" id="Question"></textarea>
+    </div>
+
+   </form>
+
+</div>
+</div>
+
+  <div class="row" >
+    <div class = "col-md-12" id="Numlab">
+
+  <form class="form-inline">
+  <div class="form-group">
+    <label for="Num">Number of Answers:</label>
+    <input type="number" class="form-control" id="Num" >
+  </div>
+
+</form>
+
+ </div>
+  </div>
+
+
+<div class="row">
+  <div class="col-md-12">
+<div id="startQues">
+  </div>
+    </div>
+
+<div class="row">
+   <div class = "col-md-12">
+<div class="dropdown" id = "correctDropDiv">
+  <div class = "ListHeader">Correct Answer:</div>
+  <button class="btn checkField btn-success dropdown-toggle" type="button" id="CorrectdropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    Choose Correct Answer
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="CorrectdropdownMenu" id = "correctdrop">
+
+  </ul>
+</div>
+</div>
+</div>
+
+
+<div class="row">
+   <div class = "col-md-12">
+<div class="panel panel-default">
+  <div class="panel-body" id="SavePanel">
+    <div class="form-group">
+  <label for="Qname">Question Name:</label>
+  <input type="text" class="form-control" id="Qname">
+  </div>
+
+
+
+
+<div class="dropdown">
+   <div class = "ListHeader">Save Location:</div>
+  <button class="btn btn-default checkField dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Choose Save Location<span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+    <li id="NewLoc"><a role="button">New Location</a></li>
+      <li role="separator" class="divider"></li>
+    <li id="OldLoc1"><a role="button">Old Folder1</a></li>
+
+  </ul>
+</div>
+
+
+
+
+
+  <div class="form-group" id="SLocPanel">
+  <label for="LocName">New Save Location Name:</label>
+  <input type="text" class="form-control" id="LocName">
+  </div>
+
+  <div id="sBut">
+  <button type="button" class="btn btn-primary" id="SaveBtn" >Save Question</button>
+</div>
+
+  </div>
+
+</div>
+
+  </form>
+</div>
+</div>
+</body>
+</html>

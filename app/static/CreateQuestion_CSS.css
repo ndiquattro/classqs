@@ -1,0 +1,49 @@
+#SavePanel {
+ background-color: #E6E6E6;
+}
+
+h2 {
+
+	text-align: center;
+   padding-bottom: 10px;
+   font-family: "Arial", Helvetica, sans-serif;
+}
+
+#SLocPanel{
+	display: none;
+	padding-top: 0px;
+}
+
+#sBut{
+padding-top: 20px;
+
+}
+
+.dropdown{
+padding-bottom: 20px;
+
+}
+
+.ListHeader{
+font-weight: bold;
+
+}
+
+.nopadding {
+   padding: 0 !important;
+ 
+}
+
+#Numlab{
+ padding-bottom: 15px;
+}
+
+#Num{
+width: 75px;
+
+	}
+
+#correctDropDiv{
+margin: 15px;	
+
+}
