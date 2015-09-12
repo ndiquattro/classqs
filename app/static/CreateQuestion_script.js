@@ -204,7 +204,7 @@ var dataJSON = JSON.stringify(dataArray);
 	$.ajax({
 
 type: "POST",
-url: '/PostCreateQuestion',
+url: '/createquestion',
 data:  dataJSON,
 dataType: 'json',
 
