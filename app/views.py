@@ -28,8 +28,8 @@ def PostCreateQuestion():
 	NumAns = int(data['NAns'])
 	QuesTxt = data['QuesTxt']
 	CAnsTxt = data['CorrAns']
-
-	return jsonify(Message=CAnsTxt)
+	Answers = data['Answers']
+	return jsonify(Message="Success!")
 
 
 
