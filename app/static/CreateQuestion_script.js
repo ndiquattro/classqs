@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
 var showalert;
 var questionTotal = 0;
 var alertvisable = false;
@@ -177,29 +178,42 @@ if(showalert){
 		}
 }else{
 
+//Check if there is no correct answer
+ if(typeof CorrectAnsTXT === 'undefined'){
+   CorrectAnsTXT = "none";
+ };
+
 
 
 //Returns successful data submission message when the entered information is stored in database.
 
+var dataArray = {
+	"FolderName" : SaveLocation,
+	"QuesName" : QuestionName,
+	"NAns" : NumAns,
+	"QuesTxt" : QuesText,
+	"CorrAns" : CorrectAnsTXT
+};
 
-var dataString = 'TableName='+ SaveLocation + '&QuesName='+ QuestionName + '&NAns='+ NumAns + '&QuesTxt='+ QuesText + '&CorrAns='+ CorrectAnsTXT;
+var dataJSON = JSON.stringify(dataArray);
 
-$.each(AnswerString, function( index, value ) {
-		var AnSt = "&Ans"+ (index+1) +"=" + value;
-		dataString += AnSt;
-});
+//var test = {"Name":"Adam"};
+
 
 // AJAX Code To Submit Form.
 	$.ajax({
+
 type: "POST",
-url: "/CreateQuestion",
-data: dataString,
-cache: false,
+url: '/PostCreateQuestion',
+data:  dataJSON,
+dataType: 'json',
+
 success: function(response){
-alert(response);
+console.log('Success', response);
 	},
 	error: function(error) {
-                alert(error);
+                
+                console.log('Error:', error);
             }
 
 });
