@@ -184,6 +184,15 @@ if(showalert){
  };
 
 
+//Construct answer array
+Answers = [];
+
+ for (var i = 0; i<NumAns; i++){
+ 	var key = AnswerString[i];
+	Answers.push(key);		
+
+};
+
 
 //Returns successful data submission message when the entered information is stored in database.
 
@@ -192,13 +201,11 @@ var dataArray = {
 	"QuesName" : QuestionName,
 	"NAns" : NumAns,
 	"QuesTxt" : QuesText,
-	"CorrAns" : CorrectAnsTXT
+	"CorrAns" : CorrectAnsTXT,
+	"Answers" : Answers
 };
 
 var dataJSON = JSON.stringify(dataArray);
-
-//var test = {"Name":"Adam"};
-
 
 // AJAX Code To Submit Form.
 	$.ajax({
@@ -221,21 +228,11 @@ console.log('Success', response);
 return false;
 
 
-
-
-
-
 }
 
 
 
-
-
-
-
 });
-
-
 
 
 
