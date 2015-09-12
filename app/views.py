@@ -2,7 +2,7 @@ from flask import render_template, request, jsonify
 from app import app
 
 @app.route('/')
-@app.route('/index.html')
+@app.route('/index')
 def Index():
     return render_template('index.html')
 
