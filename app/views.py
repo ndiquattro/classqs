@@ -21,3 +21,5 @@ def createquestion():
 
     # Save question to database
     models.Question.add_question(data)
+
+    return jsonify("Submitted!")

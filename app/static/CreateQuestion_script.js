@@ -6,7 +6,7 @@ var alertvisable = false;
 var savetxt = [];
 var SavLoca = $("#dropdownMenu1").text();
 var CorrectLocTxt = $("#CorrectdropdownMenu").text();
-
+var corrNum;
 $('#SaveBtn').popover({content: "Blabla", trigger: "manual", html: true});
 
 //Get correct Answer and populate dropdown
@@ -19,7 +19,7 @@ var questionTotal = 0;
 
 
 $('.AnsClass').each(function(index, value){
-var fullMessage = '<li class ="CorrAns" id ="Answer '+(questionTotal +1)+' "><a role="button">Answer '+(questionTotal +1)+'</a></li>';
+var fullMessage = '<li class ="CorrAns" id ="'+(questionTotal)+' "><a role="button">Answer '+(questionTotal +1)+'</a></li>';
 $("#correctdrop").append(fullMessage);
 
 questionTotal += 1;
@@ -33,7 +33,7 @@ $("#correctdrop").append(noAnwertxt);
 
 $("#correctdrop").on('click', '.CorrAns', function(){
 		var textname = this.textContent;
-
+			corrNum = this.id;
 	$("#CorrectdropdownMenu").text(textname);
 
 });
@@ -62,7 +62,6 @@ var answerObj = [];
 		$("#startQues").append(fullHtml);
 		$('#' + QuesTag).val(answerObj[i]);
 	}
-
 
 
 });
@@ -187,11 +186,15 @@ if(showalert){
 //Construct answer array
 Answers = [];
 
+
  for (var i = 0; i<NumAns; i++){
  	var key = AnswerString[i];
 	Answers.push(key);		
+		
 
 };
+
+console.log(corrNum );
 
 
 //Returns successful data submission message when the entered information is stored in database.
@@ -201,13 +204,13 @@ var dataArray = {
 	"QuesName" : QuestionName,
 	"NAns" : NumAns,
 	"QuesTxt" : QuesText,
-	"CorrAns" : CorrectAnsTXT,
+	"CorrAns" : corrNum,
 	"Answers" : Answers
 };
 
 var dataJSON = JSON.stringify(dataArray);
 
-// AJAX Code To Submit Form.
+AJAX Code To Submit Form.
 	$.ajax({
 
 type: "POST",
