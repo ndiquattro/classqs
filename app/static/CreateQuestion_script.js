@@ -41,7 +41,6 @@ $("#correctdrop").on('click', '.CorrAns', function(){
 //input number of answer choices
 $('#Num').on('input', function() {
 
-
 //get current inputs
 var answerObj = [];
  $('.AnsClass').each(function(){
@@ -49,17 +48,27 @@ var answerObj = [];
 	answerObj.push($(this).val());
  })
 
-  	var QuesNum = $('#Num').val();
+var QuesNum = $('#Num').val();
+
+NumDiff = answerObj.length - QuesNum;
 
 
-  $('.PAnsClass').remove();
+if(NumDiff>0){
+
+for ( var i = 0; i < NumDiff; i++){
+	$('#startQues').find(".PAnsClass:last").remove();
+
+}
+
+}
 
 	//Create Answers
-	for (var i = 0; i < QuesNum; i++) {
+	for (var i = answerObj.length; i < QuesNum; i++) {
 		var QuesHeader = 'Answer ' + (i+1) + ':';
 		var QuesTag = 'Answer' + (i+1);
-		var fullHtml = '<div class="form-group PAnsClass"> <label for='+QuesTag+'>'+QuesHeader+'</label><input type="text" class="form-control AnsClass" id='+QuesTag+'></div>';
+		var fullHtml = '<div style="display: none;" class="form-group PAnsClass"> <label for='+QuesTag+'>'+QuesHeader+'</label><input type="text" class="form-control AnsClass" id='+QuesTag+'></div>';
 		$("#startQues").append(fullHtml);
+		$('#startQues').find(".PAnsClass:last").slideDown("fast");
 		$('#' + QuesTag).val(answerObj[i]);
 	}
 
@@ -194,7 +203,7 @@ Answers = [];
 
 };
 
-console.log(corrNum );
+console.log(Answers);
 
 
 //Returns successful data submission message when the entered information is stored in database.
@@ -210,7 +219,7 @@ var dataArray = {
 
 var dataJSON = JSON.stringify(dataArray);
 
-AJAX Code To Submit Form.
+//AJAX Code To Submit Form.
 	$.ajax({
 
 type: "POST",
