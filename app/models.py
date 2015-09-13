@@ -1,11 +1,27 @@
 from app import db
+from flask.ext.login import UserMixin
 
 
 # User table
-class User(db.Model):
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    UserName = db.Column(db.String(64), index=True)
+    username = db.Column(db.String(64), index=True)
+    name = db.Column(db.String(64))
+    imageurl = db.Column(db.String(256))
+    social_id = db.Column(db.String(64), nullable=False, unique=True)
     Question = db.relationship('Question', backref='author', lazy='dynamic')
+
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return unicode(self.id)
 
     def __repr__(self):
         return '<User %r>' % self.UserName
