@@ -24,3 +24,4 @@ def createquestion():
         models.Question.add_question(data)
     except Exception as e:
         print e
+    return "{'good': 'good'}"
