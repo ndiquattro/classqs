@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, jsonify
 from app import app, models, lm, db
 from oauth import OAuthSignIn
 from flask.ext.login import login_user, logout_user, current_user
@@ -72,3 +72,23 @@ def createquestion():
        # print e
         pass
     return "{'good': 'good'}"
+
+# Retrieve Questions
+@app.route('/retrievepage')
+def retrievepage():
+    return render_template('QuestionSelect.html')
+
+@app.route('/getQuestions')
+def getQuestions():
+
+    #Gets the name of the folder to lookup
+    Folder = request.args.get('Folder')
+
+    #Put code below that does an sql querry on the folder name
+    #Example:  Results = models.Question.lookupQuestions(Folder);
+
+
+    #This is just an example of what could be returned
+    Results = jsonify(QuestionName="Question1",QuestionTXT="Who is the coolest?", Answer="Adam")
+
+    return Results
