@@ -62,7 +62,7 @@ def createquestion():
 
     # Get data
     data = request.get_json(force=True)
-    data['uid'] = 1  # Add fake user info
+    data['uid'] = current_user.id
     print data
     # Save question to database
     try:
