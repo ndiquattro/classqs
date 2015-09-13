@@ -1,18 +1,35 @@
 from app import db
+from flask.ext.login import UserMixin
 
 
 # User table
-class User(db.Model):
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    UserName = db.Column(db.String(64), index=True)
+    username = db.Column(db.String(64), index=True)
+    name = db.Column(db.String(64))
+    imageurl = db.Column(db.String(256))
+    social_id = db.Column(db.String(64), nullable=False, unique=True)
     Question = db.relationship('Question', backref='author', lazy='dynamic')
 
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return unicode(self.id)
+
     def __repr__(self):
-        return '<User %r>' % (self.UserName)
+        return '<User %r>' % self.UserName
 
 
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    folder = db.Column(db.String(140))
     qname = db.Column(db.String(140))
     quest = db.Column(db.String(140))
     cora = db.Column(db.Integer)
@@ -27,19 +44,20 @@ class Question(db.Model):
         # Add Question info
         q = Question(qname=qinfo['QuesName'],
                      quest=qinfo['QuesTxt'],
+                     folder=qinfo['FolderName'],
                      cora=qinfo['CorrAns'],
                      author=u)
         db.session.add(q)
 
         # Create options
         for opt in qinfo['Answers']:
-            db.session.add(Options(qid=q, opt=opt))
+            db.session.add(Options(question=q, opt=opt))
 
         # Commit
         db.session.commit()
 
     def __repr__(self):
-        return '<Quesiton %r>' % (self.quest)
+        return '<Quesiton %r>' % self.quest
 
 
 class Options(db.Model):
@@ -48,4 +66,4 @@ class Options(db.Model):
     opt = db.Column(db.String(140))
 
     def __repr__(self):
-        return '<Option %r>' % (self.opt)
+        return '<Option %r>' % self.opt
