@@ -8,7 +8,7 @@ class User(db.Model):
     Question = db.relationship('Question', backref='author', lazy='dynamic')
 
     def __repr__(self):
-        return '<User %r>' % (self.UserName)
+        return '<User %r>' % self.UserName
 
 
 class Question(db.Model):
@@ -33,13 +33,13 @@ class Question(db.Model):
 
         # Create options
         for opt in qinfo['Answers']:
-            db.session.add(Options(qid=q, opt=opt))
+            db.session.add(Options(question=q, opt=opt))
 
         # Commit
         db.session.commit()
 
     def __repr__(self):
-        return '<Quesiton %r>' % (self.quest)
+        return '<Quesiton %r>' % self.quest
 
 
 class Options(db.Model):
@@ -48,4 +48,4 @@ class Options(db.Model):
     opt = db.Column(db.String(140))
 
     def __repr__(self):
-        return '<Option %r>' % (self.opt)
+        return '<Option %r>' % self.opt
