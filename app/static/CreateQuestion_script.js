@@ -54,11 +54,23 @@ NumDiff = answerObj.length - QuesNum;
 
 
 if(NumDiff>0){
+	
+	var pclass = $('.PAnsClass').get().reverse();
 
-for ( var i = 0; i < NumDiff; i++){
-	$('#startQues').find(".PAnsClass:last").remove();
 
-}
+
+	$.each (pclass, function(){
+
+		if($(this).index() > (QuesNum-1)){
+		$(this).slideUp("fast", function(){
+
+			$(this).remove();
+		});
+		
+	}
+
+	});
+
 
 }
 
