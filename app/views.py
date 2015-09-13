@@ -3,13 +3,13 @@ from app import app, models
 
 
 @app.route('/')
-@app.route('/index')
-def Index():
+@app.route('/index.html')
+def index():
     return render_template('index.html')
 
 
-@app.route('/CreatePage')
-def CreatePage():
+@app.route('/createpage')
+def createpage():
     return render_template('CreateQuestion.html')
 
 
@@ -20,6 +20,8 @@ def createquestion():
     data = request.get_json(force=True)
 
     # Save question to database
-    models.Question.add_question(data)
-
-    return jsonify("Submitted!")
+    try:
+        models.Question.add_question(data)
+    except Exception as e:
+        print e
+    return "{'good': 'good'}"

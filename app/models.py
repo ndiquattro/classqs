@@ -32,7 +32,7 @@ class Question(db.Model):
         db.session.add(q)
 
         # Create options
-        for opt in qinfo['Opts']:
+        for opt in qinfo['Answers']:
             db.session.add(Options(qid=q, opt=opt))
 
         # Commit
