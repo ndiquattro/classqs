@@ -29,6 +29,7 @@ class User(UserMixin, db.Model):
 
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    folder = db.Column(db.String(140))
     qname = db.Column(db.String(140))
     quest = db.Column(db.String(140))
     cora = db.Column(db.Integer)
@@ -43,6 +44,7 @@ class Question(db.Model):
         # Add Question info
         q = Question(qname=qinfo['QuesName'],
                      quest=qinfo['QuesTxt'],
+                     folder=qinfo['FolderName'],
                      cora=qinfo['CorrAns'],
                      author=u)
         db.session.add(q)
