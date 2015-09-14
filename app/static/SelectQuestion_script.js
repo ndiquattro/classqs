@@ -3,7 +3,20 @@ $(document).ready(function(){
 
   $.getJSON('/_getuserinfo', function(data) {
 
- console.log(data);
+  $.each(data.folders, function( key, value ){
+    var temp = $('<button type="button" class="btn btnSelect btn-default btn-lg">'
+                      +'<span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>'+value+''
+                      +'</button>');
+
+    $("#btns").append(temp);
+    var temp2 = '<style type="text/css" id="styles">'
+        +'.btnSelect {'
+          +'margin: 5px;} </style>'
+            
+      $("#btns").append(temp2);
+
+              });
+ 
 
 });
 
@@ -36,7 +49,7 @@ for(var i = 0; i <1 ; i++){
 };
        
 
-        console.log(data);
+        
       });
 
   });
