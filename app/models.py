@@ -24,7 +24,7 @@ class User(UserMixin, db.Model):
         return unicode(self.id)
 
     def __repr__(self):
-        return '<User %r>' % self.UserName
+        return '<User %r>' % self.username
 
 
 class Question(db.Model):

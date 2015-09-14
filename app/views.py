@@ -62,33 +62,45 @@ def createquestion():
 
     # Get data
     data = request.get_json(force=True)
-    data['uid'] = current_user.id
-    print data
+    data['uid'] = current_user.id  # Add current user id
+
     # Save question to database
-    try:
-        models.Question.add_question(data)
-        print 'added'
-    except Exception as e:
-       # print e
-        pass
-    return "{'good': 'good'}"
+    models.Question.add_question(data)
+
+    return "{'Success': 'True'}"
+
 
 # Retrieve Questions
 @app.route('/retrievepage')
 def retrievepage():
     return render_template('QuestionSelect.html')
 
-@app.route('/getQuestions')
-def getQuestions():
 
-    #Gets the name of the folder to lookup
-    Folder = request.args.get('Folder')
+@app.route('/_getuserinfo')
+def getuserinfo():
 
-    #Put code below that does an sql querry on the folder name
-    #Example:  Results = models.Question.lookupQuestions(Folder);
+    # User profile info
+    uinfo = models.User.query.get(current_user.id)
+
+    # Questions
+    quests = models.Question.query.filter_by(authorid=current_user.id).all()
+    folders = list(set([quest.folder for quest in quests]))
+
+    return jsonify(name=uinfo.name, folders=folders, uid=uinfo.id)
 
 
-    #This is just an example of what could be returned
-    Results = jsonify(QuestionName="Question1",QuestionTXT="Who is the coolest?", Answer="Adam")
+@app.route('/_getquestions')
+def getquestions():
 
-    return Results
+    # Get questions in folder
+    folder = request.args.get('Folder')
+    quests = models.Question.query.filter(models.Question.authorid == current_user.id,
+                                          models.Question.folder == folder).all()
+
+    # Convert to dictionary
+    dqs = [{'QuestionName': quest.qname,
+            'QuestionID': quest.id,
+            'QuestionTXT': quest.quest,
+            'Answer': quest.cora} for quest in quests]
+
+    return jsonify(questions=dqs)
