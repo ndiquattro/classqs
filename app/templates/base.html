@@ -12,11 +12,11 @@
   <div class="well">
  <div class="row">
     <div class = "col-md-6">
-        <a href="index.html" class="btn btn-primary" role="button">
+        <a href="{{ url_for('home.index') }}" class="btn btn-primary" role="button">
   <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a>
-  <a href="createpage" class="btn btn-primary" role="button">
+  <a href="{{ url_for('admin.createpage') }}" class="btn btn-primary" role="button">
   <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Create Question</a>
-  <a href="retrievepage" class="btn btn-primary" role="button">
+  <a href="{{ url_for('admin.retrievepage') }}" class="btn btn-primary" role="button">
   <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>  Question Folder</a>
 
         {% for message in get_flashed_messages() %}
@@ -25,12 +25,11 @@
         </div>
         {% if current_user.is_authenticated %}
          <div class = "col-md-6">
-            <h5>Hi, {{ current_user.name }}! <a href="{{ url_for('logout') }}">Logout</a></h5>           
-            <!-- <a href="{{ url_for('logout') }}">Logout</a> -->
-          </div> 
+            <h5>Hi, {{ current_user.name }}! <a href="{{ url_for('login.logout') }}">Logout</a></h5>
+          </div>
         {% else %}
         <div class = "col-md-6">
-            <a href="{{ url_for('oauth_authorize', provider='twitter') }}" class="btn btn-success" role="button">
+            <a href="{{ url_for('login.oauth_authorize', provider='twitter') }}" class="btn btn-success" role="button">
                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>    Login with Twitter</a>
               </div>
         {% endif %}

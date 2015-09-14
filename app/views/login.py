@@ -1,15 +1,10 @@
-from flask import render_template, request, redirect, url_for, jsonify
-from app import app, models, lm, db
+from flask import render_template, redirect, url_for
+from app import models, lm, db
 from viewhelp import OAuthSignIn
 from flask.ext.login import login_user, logout_user, current_user
-from flask import Blueprint, render_template
+from flask import Blueprint
 
 login = Blueprint('login', __name__, url_prefix='/login')
-
-@app.route('/')
-@app.route('/index.html')
-def index():
-    return render_template('index.html')
 
 
 # Login and authorize
@@ -18,7 +13,7 @@ def load_user(id):
     return models.User.query.get(int(id))
 
 
-@app.route('/authorize/<provider>')
+@login.route('/authorize/<provider>')
 def oauth_authorize(provider):
     if not current_user.is_anonymous:
         return redirect(url_for('index'))
@@ -26,13 +21,13 @@ def oauth_authorize(provider):
     return oauth.authorize()
 
 
-@app.route('/logout')
+@login.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('home.index'))
 
 
-@app.route('/callback/<provider>')
+@login.route('/callback/<provider>')
 def oauth_callback(provider):
     if not current_user.is_anonymous:
         return redirect(url_for('index'))
@@ -50,4 +45,4 @@ def oauth_callback(provider):
         db.session.add(user)
         db.session.commit()
     login_user(user, True)
-    return redirect(url_for('index'))
+    return redirect(url_for('home.index'))
