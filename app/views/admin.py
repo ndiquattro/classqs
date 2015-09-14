@@ -1,63 +1,18 @@
-from flask import render_template, request, redirect, url_for, jsonify
-from app import app, models, lm, db
-from oauth import OAuthSignIn
-from flask.ext.login import login_user, logout_user, current_user
+from flask import render_template, request, jsonify
+from app import app, models
+from flask.ext.login import current_user
 
 
-@app.route('/')
-@app.route('/index.html')
-def index():
-    return render_template('index.html')
+admin = Blueprint('admin', __name__, url_prefix='/admin')
 
 
-# Login and authorize
-@lm.user_loader
-def load_user(id):
-    return models.User.query.get(int(id))
-
-
-@app.route('/authorize/<provider>')
-def oauth_authorize(provider):
-    if not current_user.is_anonymous:
-        return redirect(url_for('index'))
-    oauth = OAuthSignIn.get_provider(provider)
-    return oauth.authorize()
-
-
-@app.route('/logout')
-def logout():
-    logout_user()
-    return redirect(url_for('index'))
-
-
-@app.route('/callback/<provider>')
-def oauth_callback(provider):
-    if not current_user.is_anonymous:
-        return redirect(url_for('index'))
-    oauth = OAuthSignIn.get_provider(provider)
-    social_id, username, name, image = oauth.callback()
-    if social_id is None:
-        flash('Authentication failed.')
-        return redirect(url_for('index'))
-    user = models.User.query.filter_by(social_id=social_id).first()
-    if not user:
-        user = models.User(social_id=social_id,
-                           username=username,
-                           name=name,
-                           imageurl=image)
-        db.session.add(user)
-        db.session.commit()
-    login_user(user, True)
-    return redirect(url_for('index'))
-
-
-# Questions
+# Create Question
 @app.route('/createpage')
 def createpage():
     return render_template('CreateQuestion.html')
 
 
-@app.route('/createquestion', methods=['POST'])
+@app.route('/_createquestion', methods=['POST'])
 def createquestion():
 
     # Get data
@@ -70,7 +25,7 @@ def createquestion():
     return "{'Success': 'True'}"
 
 
-# Retrieve Questions
+# Display Questions
 @app.route('/retrievepage')
 def retrievepage():
     return render_template('QuestionSelect.html')

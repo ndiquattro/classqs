@@ -1,8 +1,10 @@
 from flask import render_template, request, redirect, url_for, jsonify
 from app import app, models, lm, db
-from oauth import OAuthSignIn
+from viewhelp import OAuthSignIn
 from flask.ext.login import login_user, logout_user, current_user
+from flask import Blueprint, render_template
 
+login = Blueprint('login', __name__, url_prefix='/login')
 
 @app.route('/')
 @app.route('/index.html')
@@ -49,58 +51,3 @@ def oauth_callback(provider):
         db.session.commit()
     login_user(user, True)
     return redirect(url_for('index'))
-
-
-# Questions
-@app.route('/createpage')
-def createpage():
-    return render_template('CreateQuestion.html')
-
-
-@app.route('/createquestion', methods=['POST'])
-def createquestion():
-
-    # Get data
-    data = request.get_json(force=True)
-    data['uid'] = current_user.id  # Add current user id
-
-    # Save question to database
-    models.Question.add_question(data)
-
-    return "{'Success': 'True'}"
-
-
-# Retrieve Questions
-@app.route('/retrievepage')
-def retrievepage():
-    return render_template('QuestionSelect.html')
-
-
-@app.route('/_getuserinfo')
-def getuserinfo():
-
-    # User profile info
-    uinfo = models.User.query.get(current_user.id)
-
-    # Questions
-    quests = models.Question.query.filter_by(authorid=current_user.id).all()
-    folders = list(set([quest.folder for quest in quests]))
-
-    return jsonify(name=uinfo.name, folders=folders, uid=uinfo.id)
-
-
-@app.route('/_getquestions')
-def getquestions():
-
-    # Get questions in folder
-    folder = request.args.get('Folder')
-    quests = models.Question.query.filter(models.Question.authorid == current_user.id,
-                                          models.Question.folder == folder).all()
-
-    # Convert to dictionary
-    dqs = [{'QuestionName': quest.qname,
-            'QuestionID': quest.id,
-            'QuestionTXT': quest.quest,
-            'Answer': quest.cora} for quest in quests]
-
-    return jsonify(questions=dqs)
