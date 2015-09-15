@@ -67,7 +67,7 @@ def createquestion():
     # Save question to database
     models.Question.add_question(data)
 
-    return render_template('QuestionSelect.html')
+    return jsonify(message="success")
 
 
 # Retrieve Questions

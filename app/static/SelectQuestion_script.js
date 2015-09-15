@@ -1,8 +1,10 @@
 $(document).ready(function(){
 
 
+
   $.getJSON('/_getuserinfo', function(data) {
 
+//append buttons for folders
   $.each(data.folders, function( key, value ){
     var temp = $('<button type="button" class="btn btnSelect btn-default btn-lg">'
                       +'<span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>'+value+''
@@ -21,32 +23,52 @@ $(document).ready(function(){
 });
 
 
-
-$('.btn').click(function(){
+//display folder contents
+$("#btns").on('click', '.btnSelect', function(){
+  $(".panel").remove();
+    foldername = this.textContent;
 
       $.getJSON('/_getquestions', {
-        Folder: "TestFolder",
+        Folder: foldername,
        
       }, function(data) {
+      
+        $.each(data.questions, function(){
 
-for(var i = 0; i <1 ; i++){
-      	$("#result").append('<div class = "col-sm-6">'
-      				+'<div class="panel panel-default">'
-				 	 +'<div class="panel-heading">Panel heading without title</div>'
-				 	 +'<div class="panel-body">'
-				   	 +'Panel content'
-				 	 +'</div>'
-					 +'</div>'
-					+'</div>'
-          +'<div class = "col-sm-6">'
-              +'<div class="panel panel-default">'
-           +'<div class="panel-heading">Panel heading without title</div>'
-           +'<div class="panel-body">'
-             +'test'
-           +'</div>'
-           +'</div>'
+          $("#result").append('<div class="panel panel-default pull-left">'
+          +'<div class="panel-heading"><b>Question:</b><span>'+this.QuestionName+'</span></div>'
+          +'<div class="panel-body">'
+            +''+this.QuestionTXT+''
+          +'</div>'
+          //+'<button type="button" class="btn btnSelect btn-Success">Ask Live!</button>'
+          +'<table class="table">'
+         +'<tbody>'
+           +'<tr>'
+        +'<td><button type="button" class="btn btnSelect btn btn-Info">Ask Live!</button></td>'
+        // +'<td>John</td>'
+           +'</tr>'
+        //    +'<tr>'
+        // +'<td>John</td>'
+        //   +'</tr>'
+        //    +'<tr>'
+        // +'<td>John</td>'
+        //   +'</tr>'
+           +'</tbody>'
+           +'</table>'
           +'</div>');
-};
+
+
+         //  var temp2 = '<style type="text/css" id="styles">'
+         // +'.panel {'
+         //  +'float: left;} </style>'
+            
+         //  $("#result").append(temp2);
+
+     });
+
+
+        });
+
        
 
         
@@ -55,5 +77,3 @@ for(var i = 0; i <1 ; i++){
   });
 
 
-
-});
