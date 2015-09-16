@@ -9,6 +9,17 @@ var CorrectLocTxt = $("#CorrectdropdownMenu").text();
 var corrNum;
 $('#SaveBtn').popover({content: "Blabla", trigger: "manual", html: true});
 
+//populate save folder dropdown
+  $.getJSON('/_getuserinfo', function(data) {
+
+  $.each(data.folders, function( key, value ){
+var fullMessage1 = '<li class ="SaveFolder"><a role="button">'+value+'</li>'
+$("#folddrop").append(fullMessage1);
+
+			});
+  	 });
+
+
 //Get correct Answer and populate dropdown
 $("#CorrectdropdownMenu").click(function(){
 
@@ -101,8 +112,8 @@ $("#NewLoc").click(function(){
 	}
 });
 
-$("#OldLoc1").click(function(){
-		var textname = $("#OldLoc1").text();
+$("#folddrop").on('click', '.SaveFolder', function(){
+		var textname = this.textContent;
 		$("#dropdownMenu1").text(textname);
   $("#SLocPanel").slideUp("slow");
 
@@ -215,7 +226,7 @@ Answers = [];
 
 };
 
-console.log(Answers);
+
 
 
 //Returns successful data submission message when the entered information is stored in database.
@@ -241,6 +252,7 @@ dataType: 'json',
 
 success: function(response){
 console.log('Success', response);
+window.location='/retrievepage';
 	},
 	error: function(error) {
                 
