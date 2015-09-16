@@ -9,7 +9,7 @@ admin = Blueprint('admin', __name__, url_prefix='/admin')
 # Create Question
 @admin.route('/createpage')
 def createpage():
-    return render_template('admin/CreateQuestion.html')
+    return render_template('admin/createquestion.html')
 
 
 @admin.route('/_createquestion', methods=['POST'])
@@ -28,7 +28,7 @@ def createquestion():
 # Display Questions
 @admin.route('/retrievepage')
 def retrievepage():
-    return render_template('admin/QuestionSelect.html')
+    return render_template('admin/questionselect.html')
 
 
 @admin.route('/_getuserinfo')
