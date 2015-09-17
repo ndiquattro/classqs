@@ -1,14 +1,42 @@
 {% extends "base.html" %}
 {% block content %}
+
+
+  <link href="/static/home/css/index.css" rel="stylesheet">
+  <script src="/static/home/javascript/index.js"></script>
+
+<script type=text/javascript>
+var logon_route = '{{logon_route}}';
+
+</script>
+
+
+  </head>
+  <body>
+
 <div class="container">
  <div class="row">
  	<div class = "col-md-12">
- 		 <div style="background:transparent !important" class="jumbotron">
+ 	<div class="jumbotron">
+
     <h1>Welcome to Class Questions!</h1>
  	<h2><p>A place to Easily Create questions! - Made by two cool dudes</p></h2>
+
+ 	 <div class="row">
+ 	<div class = "col-md-12 text-center">
+  <button type="button" class="btn btnlog btn-primary"  id="roomcode">Enter Room Code</button>
+	
+	</div>
+	</div>
+	 <div class="row">
+ 	<div class = "col-md-12 text-center">
+    <button type="button" class="btn btnlog btn-success" id="logonfree">Ask Question!</button>
+
+	</div>
+	</div>
    </div>
 
 </div>
 </div>
-</div>
-{% endblock %}
+ </div>
+ {% endblock %}

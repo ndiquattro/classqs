@@ -45,4 +45,4 @@ def oauth_callback(provider):
         db.session.add(user)
         db.session.commit()
     login_user(user, True)
-    return redirect(url_for('home.index'))
+    return redirect(url_for('admin.retrievepage'))
