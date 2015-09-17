@@ -10,7 +10,7 @@ var corrNum;
 $('#SaveBtn').popover({content: "Blabla", trigger: "manual", html: true});
 
 //populate save folder dropdown
-  $.getJSON('/_getuserinfo', function(data) {
+  $.getJSON(getuserinfo_route, function(data) {
 
   $.each(data.folders, function( key, value ){
 var fullMessage1 = '<li class ="SaveFolder"><a role="button">'+value+'</li>'
@@ -149,6 +149,7 @@ $(".btn").not("#SaveBtn").click(function() {
 
 //Submit form
 $("#SaveBtn").click(function(){
+	
 var alertstring =[];
 var AnswerString = [];
 var QuestionName = $("#Qname").val();
@@ -246,13 +247,14 @@ var dataJSON = JSON.stringify(dataArray);
 	$.ajax({
 
 type: "POST",
-url: '/createquestion',
+url: createq_route,
 data:  dataJSON,
 dataType: 'json',
 
 success: function(response){
-console.log('Success', response);
-window.location='/retrievepage';
+
+
+window.location= response.urlr;
 	},
 	error: function(error) {
                 

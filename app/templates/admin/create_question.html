@@ -1,8 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 
-<link href="/static/CreateQuestion_CSS.css" rel="stylesheet">
-<script src="/static/CreateQuestion_script.js"></script>
+<script type=text/javascript>
+var createq_route = '{{create_route}}';
+var getuserinfo_route = '{{userinfo_route}}'
+</script>
+
+<link href="/static/admin/css/create_question.css" rel="stylesheet">
+<script src="/static/admin/javascript/create_question.js"></script>
 
 <div class="container">
 

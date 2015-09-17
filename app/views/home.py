@@ -5,6 +5,6 @@ home = Blueprint('home', __name__)
 
 
 @home.route('/')
-@home.route('/index.html')
+@home.route('/index')
 def index():
     return render_template('home/index.html')

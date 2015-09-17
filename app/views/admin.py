@@ -1,4 +1,4 @@
-from flask import render_template, request, jsonify, Blueprint
+from flask import render_template, request, jsonify, Blueprint, url_for, redirect
 from app.models import User, Question
 from flask.ext.login import current_user
 
@@ -9,26 +9,30 @@ admin = Blueprint('admin', __name__, url_prefix='/admin')
 # Create Question
 @admin.route('/createpage')
 def createpage():
-    return render_template('admin/createquestion.html')
+    create_route = url_for('admin.createquestion')
+    userinfo_route = url_for('admin.getuserinfo')
+    return render_template('admin/create_question.html', create_route = create_route, userinfo_route = userinfo_route )
 
 
 @admin.route('/_createquestion', methods=['POST'])
 def createquestion():
-
+    
     # Get data
     data = request.get_json(force=True)
     data['uid'] = current_user.id  # Add current user id
-
     # Save question to database
     Question.add_question(data)
+    redir = url_for('admin.retrievepage')
+    return jsonify(urlr = redir)
 
-    return "{'Success': 'True'}"
 
 
 # Display Questions
 @admin.route('/retrievepage')
 def retrievepage():
-    return render_template('admin/questionselect.html')
+    userinfo_route = url_for('admin.getuserinfo')
+    getquestions_route = url_for('admin.getquestions')
+    return render_template('admin/question_select.html', userinfo_route = userinfo_route, getquestions_route = getquestions_route)
 
 
 @admin.route('/_getuserinfo')

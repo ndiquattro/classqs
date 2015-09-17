@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<script type=text/javascript>
+var getuserinfo_route = '{{userinfo_route}}'
+var getquestions_route ='{{getquestions_route}}'
+</script>
+
+
+<link href="/static/admin/css/create_question.css" rel="stylesheet">
+<link href="/static/admin/css/select_question.css" rel="stylesheet">
+<script src="/static/admin/javascript/select_question.js"></script>
+
+<h2>Question Selection</h2>
+<p>
+<div class="container">	
+<div class="row">
+<div class = "col-md-12">
+<div id="btns"></div>
+
+
+<p>
+</div>
+</div>
+</div>
+
+
+<div class="container">	
+<div class="row">
+<div class = "col-md-12">
+<div  id="result"></div>
+<p>
+</div>
+</div>
+</div>
+
+
+
+{% endblock %}

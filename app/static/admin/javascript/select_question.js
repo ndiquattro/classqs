@@ -2,7 +2,7 @@ $(document).ready(function(){
 
 
 
-  $.getJSON('/_getuserinfo', function(data) {
+  $.getJSON(getuserinfo_route, function(data) {
 
 //append buttons for folders
   $.each(data.folders, function( key, value ){
@@ -28,7 +28,7 @@ $("#btns").on('click', '.btnSelect', function(){
   $(".panel").remove();
     foldername = this.textContent;
 
-      $.getJSON('/_getquestions', {
+      $.getJSON(getquestions_route, {
         Folder: foldername,
        
       }, function(data) {
