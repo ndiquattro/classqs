@@ -40,7 +40,6 @@ $("#btns").on('click', '.btnSelect', function(){
           +'<div class="panel-body">'
             +''+this.QuestionTXT+''
           +'</div>'
-          //+'<button type="button" class="btn btnSelect btn-Success">Ask Live!</button>'
           +'<table class="table">'
          +'<tbody>'
            +'<tr>'
@@ -56,13 +55,6 @@ $("#btns").on('click', '.btnSelect', function(){
            +'</tbody>'
            +'</table>'
           +'</div>');
-
-
-         //  var temp2 = '<style type="text/css" id="styles">'
-         // +'.panel {'
-         //  +'float: left;} </style>'
-            
-         //  $("#result").append(temp2);
 
      });
 

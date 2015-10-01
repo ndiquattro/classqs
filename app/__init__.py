@@ -21,11 +21,12 @@ lm.login_message = 'Please log in to access this page.'
 from .views.login import login
 from .views.admin import admin
 from .views.home import home
+from .views.studentroom import studentroom
 
 # Register Blueprints
 app.register_blueprint(login)
 app.register_blueprint(admin)
 app.register_blueprint(home)
-
+app.register_blueprint(studentroom)
 # Final import
 from app import views, models

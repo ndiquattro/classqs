@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+
+<link href="/static/studentroom/css/roomcode.css" rel="stylesheet">
+ <script src="/static/studentroom/javascript/roomcode.js"></script>
+
+<div class="container">
+	<div class="panel panel-primary">
+     <div class="panel-heading"><h2 class="panel-title">Room Information</h2></div>
+		  <div class="panel-body">
+
+<div class="row coderow">
+
+<form class="form-horizontal">
+  <div class="form-group form-group-lg">
+    <label class="col-sm-2 control-label" for="formGroupInputLarge">Room Code</label>
+    <div class="col-sm-10">
+      <input class="form-control" type="text" id="formGroupInputLarge" placeholder="Room Code">
+    </div>
+  </div>
+  <div class="form-group form-group-lg">
+    <label class="col-sm-2 control-label" for="formGroupInputSmall"> Your ID Number</label>
+    <div class="col-sm-10">
+      <input class="form-control" type="text" id="formGroupInputSmall" placeholder="ID Number">
+    </div>
+  </div>
+</form>
+
+</div>
+
+<div class="row">
+<div  class="col-sm-4 col-sm-offset-4">
+<a href="{{url_for('studentroom.livequestionpage')}}" class="btn btn-primary btn-lg btn-block">Submit</a>
+
+</div>
+</div>
+
+</div>
+</div>
+
+   </div>
+
+
+
+{% endblock %}
