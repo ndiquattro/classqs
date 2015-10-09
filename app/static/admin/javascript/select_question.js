@@ -43,7 +43,8 @@ $("#btns").on('click', '.btnSelect', function(){
           +'<table class="table">'
          +'<tbody>'
            +'<tr>'
-        +'<td><button type="button" class="btn btnSelect btn btn-Info">Ask Live!</button></td>'
+        +'<td><a href="'+controlpanel_route+'" class="btn btnSelect btn btn-Info">Ask Live!</a></td>'
+        
         // +'<td>John</td>'
            +'</tr>'
         //    +'<tr>'

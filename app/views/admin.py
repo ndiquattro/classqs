@@ -63,3 +63,10 @@ def getquestions():
             'Answer': quest.cora} for quest in quests]
 
     return jsonify(questions=dqs)
+
+@admin.route('/question_controlpanel')
+def question_controlpanel():
+
+    return render_template('admin/live_question_controlpanel.html')
+
+

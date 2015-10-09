@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block content %}
+
+<link href="/static/admin/css/live_question_controlpanel.css" rel="stylesheet">
+<script src="/static/admin/javascript/live_question_controlpanel.js"></script>
+<div class="container">	
+
+<div class="row">
+<div class = "col-md-12">
+<h2><b>Question Control Panel</b></h2>
+<hr>
+</div>
+</div>
+
+<div class="row">
+<div class = "col-md-8">
+<div  id="currentquestion"></div>
+</div>
+
+<div class = "col-md-4">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class ="text-center"><h4>Question Settings</h2></div>
+<div class="panel-body">
+
+<div class="row">
+
+<div class="panel panel-default">
+<div class="panel-heading"><h4><b>Time Remaining: 1:21</b><h4></div>
+<div class="panel-body timerpan">
+
+
+<div class="row">
+
+<div class ="col-md-6">
+<div class="input-group">
+  <input type="number" class="form-control"  aria-describedby="basic-addon2">
+  <span class="input-group-addon" id="basic-addon2">minutes</span>
+</div>
+</div>
+
+<div class ="col-md-6">
+<div class="input-group">
+  <input type="number" class="form-control"  aria-describedby="basic-addon2">
+  <span class="input-group-addon" id="basic-addon2">seconds</span>
+</div>
+</div>
+</div>
+<br>
+<div class="row">
+<div class ="col-md-12">
+<button class="btn btn-success btn-block">Set Timer</button>
+</div>
+</div>
+
+
+
+
+</div>
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+
+{% endblock %}
