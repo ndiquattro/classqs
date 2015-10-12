@@ -7,7 +7,10 @@ span { font-size:14px;
 margin-left: 5px;
 }
 
+#foldericon{
+font-size: 18px;
 
+}
 .panel-body{
 	padding:22px;
 	font-size: 20px;
@@ -17,3 +20,25 @@ margin-left: 5px;
 margin:22px;
 
 	}
+
+	.checkField {
+    width: 250px !important;
+    height: 40px !important;
+}
+
+span.test {
+    font-size: 18px;
+}
+
+
+h2 {
+  border
+
+}
+
+.dropdown-menu {
+  left: 50%;
+  right: auto;
+  text-align: center;
+  transform: translate(-50%, 0);
+}

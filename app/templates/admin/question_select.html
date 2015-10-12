@@ -10,20 +10,32 @@ var controlpanel_route = "{{url_for('admin.question_controlpanel')}}"
 <link href="/static/admin/css/create_question.css" rel="stylesheet">
 <link href="/static/admin/css/select_question.css" rel="stylesheet">
 <script src="/static/admin/javascript/select_question.js"></script>
-
-<h2>Question Selection</h2>
-<p>
-<div class="container">	
+<h2><b>Question selection<b2></h2>
 <div class="row">
-<div class = "col-md-12">
-<div id="btns"></div>
+<div class = "col-md-12 text-center">
+<div class="dropdown text-center">
+ <button class="btn checkField btn-primary dropdown-toggle text-center" type="button" id="folderdrop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span class="glyphicon test glyphicon-folder-open" aria-hidden="true"></span>
+    <span id="foldericon">Select Folder</span>
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu text-center" id="folderselect" aria-labelledby="folderdrop">
+  </ul>
+</div>
+</div>
 
+
+</div>
+</div>
+
+
+<hr>
+<div class="container">	
+	<div class="row">
+<div class = "col-md-12 text-center"><h2 id="foldertitle"></h2>
+</div>
+</div>
 
 <p>
-</div>
-</div>
-</div>
-
 
 <div class="container">	
 <div class="row">

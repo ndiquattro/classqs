@@ -6,16 +6,13 @@ $(document).ready(function(){
 
 //append buttons for folders
   $.each(data.folders, function( key, value ){
-    var temp = $('<button type="button" class="btn btnSelect btn-default btn-lg">'
-                      +'<span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>'+value+''
-                      +'</button>');
+    // var temp = $('<button type="button" class="btn btnSelect btn-default btn-lg">'
+    //                   +'<span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>'+value+''
+    //                   +'</button>');
 
-    $("#btns").append(temp);
-    var temp2 = '<style type="text/css" id="styles">'
-        +'.btnSelect {'
-          +'margin: 5px;} </style>'
-            
-      $("#btns").append(temp2);
+    var temp = '<li class ="btnSelect" ><a role="button">'+value+'</a></li>';
+    $("#folderselect").append(temp);
+
 
               });
  
@@ -24,7 +21,11 @@ $(document).ready(function(){
 
 
 //display folder contents
-$("#btns").on('click', '.btnSelect', function(){
+$("#folderselect").on('click', '.btnSelect', function(){
+
+   var textname = this.textContent;
+  $("#foldertitle").text(textname);
+
   $(".panel").remove();
     foldername = this.textContent;
 
@@ -35,7 +36,7 @@ $("#btns").on('click', '.btnSelect', function(){
       
         $.each(data.questions, function(){
 
-          $("#result").append('<div class="panel panel-default pull-left">'
+          $("#result").append('<div class="panel panel-default pull-left" style="width: 500px;">'
           +'<div class="panel-heading"><b>Question:</b><span>'+this.QuestionName+'</span></div>'
           +'<div class="panel-body">'
             +''+this.QuestionTXT+''
@@ -44,15 +45,7 @@ $("#btns").on('click', '.btnSelect', function(){
          +'<tbody>'
            +'<tr>'
         +'<td><a href="'+controlpanel_route+'" class="btn btnSelect btn btn-Info">Ask Live!</a></td>'
-        
-        // +'<td>John</td>'
            +'</tr>'
-        //    +'<tr>'
-        // +'<td>John</td>'
-        //   +'</tr>'
-        //    +'<tr>'
-        // +'<td>John</td>'
-        //   +'</tr>'
            +'</tbody>'
            +'</table>'
           +'</div>');
