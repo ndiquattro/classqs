@@ -1,15 +1,10 @@
 $(document).ready(function(){
 
-
-
   $.getJSON(getuserinfo_route, function(data) {
 
-//append buttons for folders
+//append list for folders
   $.each(data.folders, function( key, value ){
-    // var temp = $('<button type="button" class="btn btnSelect btn-default btn-lg">'
-    //                   +'<span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>'+value+''
-    //                   +'</button>');
-
+ 
     var temp = '<li class ="btnSelect" ><a role="button">'+value+'</a></li>';
     $("#folderselect").append(temp);
 
@@ -17,7 +12,7 @@ $(document).ready(function(){
               });
  
 
-});
+  });
 
 
 //display folder contents
@@ -44,21 +39,45 @@ $("#folderselect").on('click', '.btnSelect', function(){
           +'<table class="table">'
          +'<tbody>'
            +'<tr>'
-        +'<td><a href="'+controlpanel_route+'" class="btn btnSelect btn btn-Info">Ask Live!</a></td>'
+        +'<td><a href="#" class="btn btnSelect quesbtn btn-Info" id="'+this.QuestionID+'">Ask Live!</a></td>'
            +'</tr>'
            +'</tbody>'
            +'</table>'
           +'</div>');
 
-     });
-
+               });
+          });
 
         });
 
-       
+$("#result").on('click','.quesbtn', function(){
 
+var dataArray = {
+  "quesid" : this.id
+};
+
+var dataJSON = JSON.stringify(dataArray);
+
+$.ajax({
+type: "POST",
+url: add_room_currques_route,
+data:  dataJSON,
+dataType: 'json',
+success: function(response){
+    console.log(response.urlr);
+    window.location = response.urlr;
+  },
+  error: function(error) {
+                
+                console.log('Error:', error);
+            }
+
+});
         
       });
+
+
+
 
   });
 

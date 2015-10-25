@@ -67,3 +67,28 @@ class Options(db.Model):
 
     def __repr__(self):
         return '<Option %r>' % self.opt
+
+class Roomcode_Currques(db.Model):
+
+    id = db.Column(db.Integer, primary_key=True)
+    authorid = db.Column(db.Integer, db.ForeignKey('user.id'))
+    roomcode = db.Column(db.String(140))
+    currquesid = db.Column(db.String(140))
+
+    @staticmethod
+    def add_room_question(room_ques, uid):
+        
+        q = Roomcode_Currques(authorid=uid,
+                              roomcode=room_ques['rcode'],
+                              currquesid=room_ques['qid'])
+        db.session.add(q)
+        db.session.commit()
+
+    @staticmethod
+    def change_currquestion(ques, uid):
+        roomcheck = Roomcode_Currques.query.filter_by(authorid=uid).first()
+        roomcheck.currquesid = ques
+        db.session.commit()
+
+    def __repr__(self):
+        return '<Roomcode_Currques %r>' % self.currquesid

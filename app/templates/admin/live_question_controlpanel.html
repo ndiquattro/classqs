@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
 
+<script type=text/javascript>
+var room_code = '{{room_code}}'
+var getroomroute = "{{url_for('admin.lookup_by_roomcode')}}"
+</script>
+
 <link href="/static/admin/css/live_question_controlpanel.css" rel="stylesheet">
 <script src="/static/admin/javascript/live_question_controlpanel.js"></script>
 <div class="container">	
@@ -10,7 +15,7 @@
 <h2>Live Question</h2>
 </div>
 <div class = "col-md-4 pull-right" id="roomcodediv">
-<h2 class= "text-center">Room Code: <b>XFG1D1</b></h2>
+<h2 class= "text-center">Room Code: <b>{{ room_code }}</b></h2>
 </div>
 </div>
 

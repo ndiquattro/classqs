@@ -1,26 +1,32 @@
  $(document).ready(function(){
 
-var QuestionName = "Question 1  ";
-var QuestionTXT = "What is a Buffalo?";
+ $.getJSON(getroomroute , {
+        r: room_code,   
 
- $("#currentquestion").append('<div class="panel panel-default">'
-          +'<div class="panel-heading"><h4>'+QuestionName+'<span class="label label-info">Live!</span></h4></div>'
+      }, function(data) {
+
+        $("#currentquestion").append('<div class="panel panel-default">'
+          +'<div class="panel-heading"><h4>'+data.qname+''+"  "+'<span class="label label-info">Live!</span></h4></div>'
           +'<div class="panel-body"><h1><b>'
-            +''+QuestionTXT+''
+            +''+data.qtxt+''
           +'</b></h1></div>'
           +'<table class="table">'
-         +'<tbody>'
-           +'<tr>'
-        +'<td><h3><b>1) </b>An animal with hair</h3></td>'
-           +'<tr>'
-        +'<td><h3><b>2) </b>A whiskey</h3></td>'
-          +'</tr>'
-           +'<tr>'
-        +'<td><h3><b>3) </b>An ugly human</h3></td>'
-          +'</tr>'
-           +'</tbody>'
-           +'</table>'
-          +'</div>');
+          +'<tbody id="ans">'
+          +'</tbody>'
+          +'</table>'
+          +'</div>');  
+
+           var i =0;
+           $.each(data.answers, function(){
+            i+=1;
+           $("#ans").append('<tr>'
+           +'<td><h3><b>'+i+') </b>'+this+'</h3></td>'
+           +'<tr>');    
+           
+        });
+
+
 
      });
 
+  });
