@@ -95,8 +95,8 @@ def id_generator(size=4, chars=string.ascii_uppercase):
     return ''.join(random.choice(chars) for _ in range(size))
 
 
-@admin.route('/lookup_by_roomcode')
 # looks up questions and answers by roomcode
+@admin.route('/lookup_by_roomcode')
 def lookup_by_roomcode():
     roomcode = request.args.get('r')
     questroom = Roomcode_Currques.query.filter_by(roomcode=roomcode).first()
@@ -105,4 +105,11 @@ def lookup_by_roomcode():
     ans = list(set([option.opt for option in answers]))
     return jsonify(qname=question.qname, qtxt=question.quest, answers=ans)
 
-
+# looks up questions and answers by roomcode
+@admin.route('/lookup_by_qid')
+def lookup_by_qid():
+    quesid = request.args.get('quesid')
+    question = Question.query.get(quesid)
+    answers = Options.query.filter(Options.qid == quesid).all()
+    ans = list(set([option.opt for option in answers]))
+    return jsonify(qname=question.qname, qtxt=question.quest, answers=ans)

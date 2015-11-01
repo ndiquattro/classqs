@@ -7,3 +7,44 @@
     background-color: E9F1F2;
 
 }
+
+.dropdown-menu {
+  left: 50%;
+  right: auto;
+  text-align: center;
+  transform: translate(-50%, 0);
+}
+
+	.checkField {
+    margin-top:15px ;
+    width: 200px !important;
+    height: 35px !important;
+}
+
+.form-control{
+ min-width: 70px;
+max-width: 70px;
+min-height: 50px
+}
+
+input[type="number"]
+{
+    font-size:20px;
+}
+
+.input-group-addon{
+
+  font-size: 20px;
+}
+
+#time{
+
+  font-size: 60px;
+}
+
+
+#strbtn{
+  width: 150px !important;
+
+}
+
