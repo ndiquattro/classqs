@@ -1,19 +1,22 @@
  $(document).ready(function(){
 
 var intervalfunct;
-var paused;
 var duration;
 var timer;
 var reset;
+var live;
+var nextquestid;
+var nextquestionselected = false;
+var countdown = false;
 
 //get current question for room
  $.getJSON(getroomroute , {
         r: room_code,   
 
       }, function(data) {
-
-        $("#currentquestion").append('<div class="panel panel-default">'
-          +'<div class="panel-heading"><h4>'+data.qname+''+"  "+'<span class="label label-info">Live!</span></h4></div>'
+        $(".currquespan").remove();
+        $("#currentquestion").append('<div class="panel panel-default currquespan" id='+data.quid+'>'
+          +'<div class="panel-heading"><h4>Title: '+data.qname+''+"&nbsp &nbsp &nbsp &nbsp"+'<span class="livelabel" id="statuslabel">Question is Live!</span></h4></div>'
           +'<div class="panel-body"><h1><b>'
             +''+data.qtxt+''
           +'</b></h1></div>'
@@ -31,7 +34,10 @@ var reset;
            +'<tr>');    
            
         });
+
      });
+
+
 
 //Display folder names
   $.getJSON(getuserinfo_route, function(data) {
@@ -59,7 +65,6 @@ var reset;
         Folder: foldername,
        
       }, function(data) {
-        // $("#nextquestion").append('<div class = "col-md-8 text-center"><h2 id="foldertitle">'+textname+'</h2>');
 
         $.each(data.questions, function(){
 
@@ -84,7 +89,13 @@ var reset;
 
 //select next question
   $("#result").on('click','.quesbtn', function(){
+  nextquestid = this.id;
+  nextquestionselected = true;
+$("#nextbtn").text('Start Next Question'); 
 
+if(live==false){
+ $("#nextbtn").toggleClass("btn-primary btn-success")
+}
 $(".quespanel").remove();
 $(".nextqueshead").remove();
 $.getJSON(getquesbyid_route, {
@@ -126,8 +137,8 @@ $(document).on('click','button.pause', pausetime);
 
 // Function for starting Countdown timer
  function startime(){
-
-    
+    countdown = true;
+    paused = false;
     $("#strbtn").text('Pause');
     $(this).toggleClass("btn-info start pause");
 
@@ -146,6 +157,15 @@ $(document).on('click','button.pause', pausetime);
 
         if (--timer < 0) {
             timer = duration;
+            closequestion();
+            reset = true;
+            clearInterval(intervalfunct);
+            countdown = false;
+            
+
+     
+
+
         }
     }, 1000);
 
@@ -167,6 +187,7 @@ $(document).on('click','button.pause', pausetime);
 
  //Function for pausing countdown
  function pausetime(){
+   countdown = false;
     paused = true;
    $("#strbtn").text('Resume');
    $(this).toggleClass("btn-info start pause");
@@ -182,7 +203,10 @@ $(document).on('click','button.pause', pausetime);
 
   //reset timer button
   $('#resetbtn').on('click', function() {
+     countdown = false;
+
       reset = true;
+      $('#strbtn').show();
       clearInterval(intervalfunct);
       resettime();
       if(paused != true){
@@ -206,6 +230,174 @@ $(document).on('click','button.pause', pausetime);
     sec = seconds < 10 ? "0" + seconds : seconds;
     $('#time').text(min + ":" + sec);
 
+  } //end reset
+
+  //btn to end question
+  $('#endbtn').on('click', function() {
+        resettime();
+        if( countdown == false || paused ==true){
+        $('#strbtn').toggleClass("btn-info");
+        $('#strbtn').toggleClass("start pause");
+         $("#strbtn").text('Start');
+       }
+       paused = false;
+    closequestion();
+    countdown = false;
+  });
+
+//function to end quesion
+function closequestion() {
+  if(live !=false){
+    $('#endbtn').prop('disabled', true);
+    $("#statuslabel").text('Question has Ended');
+    $('#statuslabel').toggleClass("livelabel closedlabel");
+    clearInterval(intervalfunct);
+      $("#endpanel").slideDown("slow");
+
+         if(nextquestid == null || nextquestionselected == false){
+       $("#nextbtn").text('Select Next Question');  
+        $("#nextbtn").toggleClass("btn-primary btn-success")
+     }
+   
+              $('#strbtn').slideUp();
+              $('#resetbtn').slideUp();
+             
+
+
   }
+    clearInterval(intervalfunct);
+    live = false;
+}
+
+//restart question btn
+$('#restartbtn').on('click', function() {
+  
+restartquestion();
+
+});
+
+//function to restart question
+function restartquestion() {
+
+ if(live !=true){
+
+  $('#strbtn').slideDown();
+  $('#resetbtn').slideDown();
+   resettime();
+   if(paused != true){
+        $('#strbtn').toggleClass("btn-info");
+        $('#strbtn').toggleClass("start pause");
+      }
+
+      $("#strbtn").text('Start');
+  $('#endbtn').prop('disabled', false);
+   $("#statuslabel").text('Question is Live!');
+    $('#statuslabel').toggleClass("livelabel closedlabel");
+    $("#endpanel").slideUp("slow");
+     live = true;
+ }
+
+
+}
+
+//click button to change to next question or select new question
+$('#nextbtn').on('click', function() {
+if(nextquestid==null || nextquestionselected==false){
+ $('.nav-tabs > .selectab').find('a').trigger('click');   
+    } 
+    //if the next question is selected send the current ques to the db 
+    //also change and start current question
+  else{
+
+    changecurrentques();
+  }
+
+
+});
+
+//function to change the current room question in the db and on the control page, also starts the question
+function changecurrentques(){
+//enable the endquestionbutton
+$('#endbtn').prop('disabled', false);
+
+$('#strbtn').slideDown();
+$('#resetbtn').slideDown();
+ resettime();
+ if(paused != true){
+        $('#strbtn').toggleClass("btn-info");
+        $('#strbtn').toggleClass("start pause");
+      }
+
+      $("#strbtn").text('Start');
+//there is now no next question selected
+nextquestionselected = false;
+
+//add next question to db
+var dataArray = {
+  "quesid" : nextquestid
+};
+
+currquesid = nextquestid;
+
+var dataJSON = JSON.stringify(dataArray);
+
+$.ajax({
+type: "POST",
+url: add_room_currques_route,
+data:  dataJSON,
+dataType: 'json',
+
+success: function(response){
+console.log('Success:', response)
+  },
+  error: function(error) {
+                
+                console.log('Error:', error);
+            }
+
+});//end add to db
+
+//get rid of current question
+$(".currquespan").remove();
+
+//remove the next question and swith the tabs
+$(".quespanel").remove();
+$(".nextqueshead").remove();
+$('.nav-tabs > .currtab').find('a').trigger('click'); 
+
+//append new question
+$.getJSON(getquesbyid_route, {
+        quesid: nextquestid,   
+
+      }, function(data) {
+
+        $("#currentquestion").append('<div class="panel panel-default currquespan" id='+data.quid+'>'
+          +'<div class="panel-heading"><h4>Title: '+data.qname+''+"&nbsp &nbsp &nbsp &nbsp"+'<span class="livelabel" id="statuslabel">Question is Live!</span></h4></div>'
+          +'<div class="panel-body"><h1><b>'
+            +''+data.qtxt+''
+          +'</b></h1></div>'
+          +'<table class="table">'
+          +'<tbody id="ans">'
+          +'</tbody>'
+          +'</table>'
+          +'</div>');  
+
+           var i =0;
+           $.each(data.answers, function(){
+            i+=1;
+           $("#ans").append('<tr>'
+           +'<td><h3><b>'+i+') </b>'+this+'</h3></td>'
+           +'<tr>');       
+           
+                });
+            });
+
+//make question live
+ $("#endpanel").slideUp("slow");
+  live = true;
+}
+
+
+
 
   }); //end on document ready

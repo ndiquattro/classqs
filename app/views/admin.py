@@ -103,7 +103,7 @@ def lookup_by_roomcode():
     question = Question.query.get(questroom.currquesid)
     answers = Options.query.filter(Options.qid == questroom.currquesid).all()
     ans = list(set([option.opt for option in answers]))
-    return jsonify(qname=question.qname, qtxt=question.quest, answers=ans)
+    return jsonify(qname=question.qname, qtxt=question.quest, answers=ans, quid=questroom.currquesid)
 
 # looks up questions and answers by roomcode
 @admin.route('/lookup_by_qid')

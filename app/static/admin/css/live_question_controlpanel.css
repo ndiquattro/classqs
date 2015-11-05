@@ -8,6 +8,11 @@
 
 }
 
+.folderow{
+
+  margin-top:18px;
+}
+
 .dropdown-menu {
   left: 50%;
   right: auto;
@@ -16,7 +21,6 @@
 }
 
 	.checkField {
-    margin-top:15px ;
     width: 200px !important;
     height: 35px !important;
 }
@@ -48,3 +52,36 @@ input[type="number"]
 
 }
 
+.livelabel{
+    border-style: solid;
+    border-width: 1px;
+     border-radius: 5px;
+  border-color: #0099CC;
+   padding: 7px 25px;
+   background-color: #0099CC;
+   font-size: 20px;
+   color: white;
+   box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.2);
+}
+
+.closedlabel{
+    border-style: solid;
+    border-width: 1px;
+     border-radius: 5px;
+  border-color: #5D5D2E;
+   padding: 7px 25px;
+   background-color: #5D5D2E;
+   font-size: 20px;
+   color: white;
+   box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.2);
+}
+
+#endpanel {
+    display: none;
+    padding: 15px 0px;
+}
+
+.endbtn{
+height: 40px;
+font-size: 18px;
+}
