@@ -8,7 +8,7 @@ var live;
 var nextquestid;
 var nextquestionselected = false;
 var countdown = false;
-
+var paused;
 //get current question for room
  $.getJSON(getroomroute , {
         r: room_code,   
@@ -34,6 +34,12 @@ var countdown = false;
            +'<tr>');    
            
         });
+
+           if(data.islive==0){
+            closequestion();
+           
+            paused = true;
+           }
 
      });
 
@@ -161,11 +167,6 @@ $(document).on('click','button.pause', pausetime);
             reset = true;
             clearInterval(intervalfunct);
             countdown = false;
-            
-
-     
-
-
         }
     }, 1000);
 
@@ -266,6 +267,9 @@ function closequestion() {
 
   }
     clearInterval(intervalfunct);
+    //store in room db that question is ended (islive = 0)
+    start_end_db(0);
+    updateroomlabel(false);
     live = false;
 }
 
@@ -294,10 +298,11 @@ function restartquestion() {
    $("#statuslabel").text('Question is Live!');
     $('#statuslabel').toggleClass("livelabel closedlabel");
     $("#endpanel").slideUp("slow");
+     start_end_db(1);
      live = true;
  }
 
-
+updateroomlabel(true);
 }
 
 //click button to change to next question or select new question
@@ -394,8 +399,44 @@ $.getJSON(getquesbyid_route, {
 
 //make question live
  $("#endpanel").slideUp("slow");
+ updateroomlabel(true);
   live = true;
-}
+}//end starting next question
+
+//tell database to end/start current question
+function start_end_db(islive){
+
+var dataArray = {
+            "islive" : islive
+                  };
+      var dataJSON = JSON.stringify(dataArray);
+      $.ajax({
+      type: "POST",
+      url: togglelive_route,
+      data:  dataJSON,
+      dataType: 'json',
+      success: function(response){
+     
+                },
+      error: function(error) {          
+                console.log('Error:', error);
+            }
+      });
+
+}//end start_end_db
+
+//update the live label
+function updateroomlabel(is_live){
+  $("#roomhref").remove();
+
+      if(is_live == true){
+    $("#roomlink").append('<a href=# id="roomhref"><span class="glyphicon glyphicon-stats" '
+              +'aria-hidden="true"></span>Question Room <span class="label livehead label-primary">Live!</span></a>')
+    }else{
+      $("#roomlink").append('<a href=# id="roomhref"><span class="glyphicon glyphicon-stats" '
+              +'aria-hidden="true"></span>Question Room <span class="label livehead label-danger">Question Ended</span></a>')
+    }
+}//end live label
 
 
 

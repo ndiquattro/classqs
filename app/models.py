@@ -74,21 +74,31 @@ class Roomcode_Currques(db.Model):
     authorid = db.Column(db.Integer, db.ForeignKey('user.id'))
     roomcode = db.Column(db.String(140))
     currquesid = db.Column(db.String(140))
+    isLive = db.Column(db.Integer)
 
     @staticmethod
-    def add_room_question(room_ques, uid):
+    def add_room_question(room_ques, uid, islive):
         
         q = Roomcode_Currques(authorid=uid,
                               roomcode=room_ques['rcode'],
-                              currquesid=room_ques['qid'])
+                              currquesid=room_ques['qid'],
+                              isLive=islive)
         db.session.add(q)
         db.session.commit()
 
     @staticmethod
-    def change_currquestion(ques, uid):
+    def change_currquestion(ques, uid, islive):
         roomcheck = Roomcode_Currques.query.filter_by(authorid=uid).first()
         roomcheck.currquesid = ques
+        roomcheck.isLive = islive
         db.session.commit()
+
+    @staticmethod
+    def toggle_ques_live(uid, islive):
+        roomcheck = Roomcode_Currques.query.filter_by(authorid=uid).first()
+        roomcheck.isLive = islive
+        db.session.commit()
+
 
     def __repr__(self):
         return '<Roomcode_Currques %r>' % self.currquesid

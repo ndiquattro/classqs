@@ -8,6 +8,7 @@ var getuserinfo_route = "{{url_for('admin.getuserinfo')}}"
 var getquestions_route ="{{url_for('admin.getquestions')}}"
 var add_room_currques_route ="{{url_for('admin.add_room_currques')}}"
 var getquesbyid_route = "{{url_for('admin.lookup_by_qid')}}"
+var togglelive_route = "{{url_for('admin.toggle_ques_live')}}"
 </script>
 
 <link href="/static/admin/css/live_question_controlpanel.css" rel="stylesheet">
@@ -40,10 +41,12 @@ var getquesbyid_route = "{{url_for('admin.lookup_by_qid')}}"
 <div class="row">
 <div class = "col-md-3">
 <a href="#" class="btn btn-success btn-block endbtn" id="nextbtn" role="button">Start Next Question</a>
-<!-- <button class="btn btn-primary btn-block endbtn" id='nextbtn'>Start Next Question</button> -->
 </div>
 <div class = "col-md-3">
-<button class="btn btn-info btn-block endbtn" id='restartbtn'>Restart Question</button>
+<button class="btn btn-info btn-block endbtn" id='restartbtn'>Restart Current Question</button>
+</div>
+<div class = "col-md-2">
+<button class="btn btn-default endbtn" id='resultbtn'><span class="glyphicon glyphicon-stats" aria-hidden="true"></span>Results</button>
 </div>
 </div>
 </div>

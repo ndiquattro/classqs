@@ -75,23 +75,26 @@ def add_room_currques():
 
     quesid = request.get_json(force=True)
     uid = current_user.id
-    #check if user already has a room
+    # check if user already has a room
     roomcheck = Roomcode_Currques.query.filter_by(authorid=current_user.id).first()
-    #if user does not have a room then add room and question, else just change current question
+    
+    # automatically make question live whenever there is a change, might need to change this later
+    islive = 1;
 
+    # if user does not have a room then add room and question, else just change current question
     if roomcheck is None:
-        roomcode = id_generator()
+        roomcode = id_generator()       
         code_ques =  {'qid' : quesid['quesid'], 'rcode' : roomcode}
-        Roomcode_Currques.add_room_question(code_ques, uid)
+        Roomcode_Currques.add_room_question(code_ques, uid, islive)
     else:
         roomcode = roomcheck.roomcode
-        Roomcode_Currques.change_currquestion(quesid['quesid'], uid)
+        Roomcode_Currques.change_currquestion(quesid['quesid'], uid, islive)
 
     redir = url_for('admin.question_controlpanel', room_code = roomcode)
     return jsonify(urlr = redir)
 
 # generates room codes
-def id_generator(size=4, chars=string.ascii_uppercase):
+def id_generator(size=5, chars=string.ascii_uppercase):
     return ''.join(random.choice(chars) for _ in range(size))
 
 
@@ -103,7 +106,8 @@ def lookup_by_roomcode():
     question = Question.query.get(questroom.currquesid)
     answers = Options.query.filter(Options.qid == questroom.currquesid).all()
     ans = list(set([option.opt for option in answers]))
-    return jsonify(qname=question.qname, qtxt=question.quest, answers=ans, quid=questroom.currquesid)
+    islive = questroom.isLive
+    return jsonify(qname=question.qname, qtxt=question.quest, answers=ans, quid=questroom.currquesid, islive=islive)
 
 # looks up questions and answers by roomcode
 @admin.route('/lookup_by_qid')
@@ -113,3 +117,21 @@ def lookup_by_qid():
     answers = Options.query.filter(Options.qid == quesid).all()
     ans = list(set([option.opt for option in answers]))
     return jsonify(qname=question.qname, qtxt=question.quest, answers=ans)
+
+# toggle question to be live, 0 = ended, 1 = live
+@admin.route('/toggle_ques_live', methods=['POST'])
+def toggle_ques_live():
+    data = request.get_json(force=True)
+    uid = current_user.id
+    Roomcode_Currques.toggle_ques_live(uid, data['islive'])
+    return jsonify(response="success")
+
+@admin.route('/linkroomcode')
+def linkroomcode():
+
+    questroom = Roomcode_Currques.query.filter_by(authorid=current_user.id).first()
+    roomcode = questroom.roomcode
+    islive = questroom.isLive
+    controlurl = url_for('admin.question_controlpanel', room_code=roomcode)
+    
+    return jsonify(room_url=controlurl, islive = islive)

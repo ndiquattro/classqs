@@ -7,6 +7,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <link href="/static/home/css/base.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   <script src="/static/base.js"></script>
   </head>
   <body>
@@ -16,7 +17,10 @@
         {% endfor %}
         </div>
         {% if current_user.is_authenticated %}
-
+<script type=text/javascript>
+  var getroomlink_route = "{{url_for('admin.linkroomcode')}}"
+  var islogged = true;
+  </script>
 
   <nav role="navigation" class="navbar navbar-default">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -35,6 +39,7 @@
             <li><a href="{{ url_for('home.index') }}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
             <li><a href="{{ url_for('admin.createpage') }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>Create Question</a></li>
             <li><a href="{{ url_for('admin.retrievepage') }}"> <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>Question Folder</a></li>
+            <li id="roomlink"></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><a>Hi, {{ current_user.name }}!</a></li>
@@ -44,6 +49,9 @@
 </nav> 
 
   {% else %}
+  <script type=text/javascript>
+  var islogged = false;
+  </script>
 
 <nav role="navigation" class="navbar navbar-default">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -59,7 +67,7 @@
     <!-- Collection of nav links and other content for toggling -->
     <div id="navbarCollapse" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-            <li class="active"><a href="{{ url_for('home.index') }}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+            <li class="active"><a href="{{ url_for('home.index') }}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home </a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="{{ url_for('home.logon') }}">Login</a></li>
