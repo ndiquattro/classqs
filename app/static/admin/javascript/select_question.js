@@ -64,7 +64,7 @@ url: add_room_currques_route,
 data:  dataJSON,
 dataType: 'json',
 success: function(response){
-    console.log(response.urlr);
+   
     window.location = response.urlr;
   },
   error: function(error) {

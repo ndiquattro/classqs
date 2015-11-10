@@ -9,3 +9,41 @@ margin: 20px;
 .fontbold{
 	font-weight: bold;
 }
+
+.form-control{
+font-size: 30px;
+min-height: 60px;
+text-transform: uppercase;
+}
+
+.col-fixed {
+    /* custom width */
+    width:180px;
+}
+
+.btn-block{
+font-size: 26px;
+min-height: 60px
+
+}
+
+#codealert {
+   text-align: center;
+   font-size: 20px;
+   font-weight: bold;
+    display: none;
+}
+
+.col-centered {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+    text-align:left;
+    /* inline-block space fix */
+    margin-right:-4px;
+}
+
+.row-centered {
+    text-align:center;
+}
+
