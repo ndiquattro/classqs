@@ -9,8 +9,10 @@
   <link href="/static/home/css/base.css" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   <script src="/static/base.js"></script>
+  <link href="/static/base.css" rel="stylesheet">
   </head>
   <body>
+
 
         {% for message in get_flashed_messages() %}
             <p><b>Error</b>: {{ message }}</p>
@@ -24,6 +26,7 @@
 
   <nav role="navigation" class="navbar navbar-default">
     <!-- Brand and toggle get grouped for better mobile display -->
+     <div class="container-fluid">
     <div class="navbar-header">
         <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
             <span class="sr-only">Toggle navigation</span>
@@ -41,11 +44,17 @@
             <li><a href="{{ url_for('admin.retrievepage') }}"> <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>Question Folder</a></li>
             <li id="roomlink"></li>
         </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a>Hi, {{ current_user.name }}!</a></li>
+        <ul class="nav navbar-nav pull-right">
+           <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user" aria-hidden="true">Account<span class="caret"></span></a>
+          <ul class="dropdown-menu">
             <li><a href="{{ url_for('login.logout') }}">Logout</a></li>
         </ul>
+        </li>
+        </ul>
+
     </div>
+  </div>
 </nav> 
 
   {% else %}
@@ -78,7 +87,8 @@
 
 
         {% endif %}
-     
+
     {% block content %}{% endblock %} 
+
   </body>
 </html>

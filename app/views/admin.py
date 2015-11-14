@@ -66,8 +66,8 @@ def getquestions():
 
 @admin.route('/question_controlpanel/<room_code>')
 def question_controlpanel(room_code):
-
-    return render_template('admin/live_question_controlpanel.html', room_code = room_code)
+    posturl = url_for('questionserver.event_stream', room_code=room_code)
+    return render_template('admin/live_question_controlpanel.html', room_code = room_code, posturl=str(posturl))
 
 
 @admin.route('/add_room_currques', methods=['POST'])

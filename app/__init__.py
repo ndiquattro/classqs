@@ -22,11 +22,14 @@ from .views.login import login
 from .views.admin import admin
 from .views.home import home
 from .views.studentroom import studentroom
+from .views.questionserver import questionserver
 
 # Register Blueprints
 app.register_blueprint(login)
 app.register_blueprint(admin)
 app.register_blueprint(home)
 app.register_blueprint(studentroom)
+app.register_blueprint(questionserver)
+
 # Final import
 from app import views, models

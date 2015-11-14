@@ -8,21 +8,6 @@ home = Blueprint('home', __name__)
 
 @home.route('/')
 
-# @home.context_processor
-# def linkroomcode():
-
-# 	roomcode = "test"
-# 	# if current_user.is_authenticated:
-# 	# 	questroom = Roomcode_Currques.query.filter_by(authorid=current_user.id).first()
-# 	# 	roomcode = questroom.roomcode
-# 	# 	islive = questroom.isLive
-# 	# 	#controlurl = url_for('admin.question_controlpanel', room_code=roomcode)
-# 	# else:
-# 	# 	roomcode = "none"
-	
-# 	return roomcode
-
-
 @home.route('/index')
 def index():
 	

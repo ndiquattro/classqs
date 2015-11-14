@@ -1,3 +1,11 @@
+  .container-fixed {
+                   margin: 0 auto;
+                  max-width: 1150px;
+                  min-width: 1150px;
+                  width: 1150px;
+                }
+
+
 .timerpan {
   background-color: whitesmoke;
 }
@@ -84,4 +92,5 @@ input[type="number"]
 .endbtn{
 height: 40px;
 font-size: 18px;
+margin: 2px;
 }

@@ -248,6 +248,9 @@ $(document).on('click','button.pause', pausetime);
 
 //function to end quesion
 function closequestion() {
+  
+  //tell student room to close
+  sendstudentroom();
   if(live !=false){
     $('#endbtn').prop('disabled', true);
     $("#statuslabel").text('Question has Ended');
@@ -439,6 +442,27 @@ function updateroomlabel(is_live){
 }//end live label
 
 
+//function that updates the student room
+function sendstudentroom(){
 
+//if room is closed do this
+var dataArray = {
+            "islive" : 0
+                  };
+      var dataJSON = JSON.stringify(dataArray);
+      $.ajax({
+      type: "POST",
+      url: sroompost_route,
+      data:  dataJSON,
+      dataType: 'json',
+      success: function(response){
+     
+                },
+      error: function(error) {          
+                console.log('Error:', error);
+            }
+      });
+
+}
 
   }); //end on document ready

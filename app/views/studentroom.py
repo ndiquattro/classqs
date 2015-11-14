@@ -1,6 +1,7 @@
 from flask import render_template, request, jsonify, json, Blueprint, url_for, redirect
 from flask import Blueprint
 from app.models import Question, Options, Roomcode_Currques
+import questionserver
 
 studentroom = Blueprint('studentroom', __name__)
 
@@ -14,8 +15,11 @@ def roomcodepage():
 
 @studentroom.route('/live_question_room.html/<room_code>')
 def live_question_room(room_code):
+    qservurl = url_for('questionserver.poll', room_code=room_code)
+    # add to subscriptions
+    questionserver.subscribe()
 
-    return render_template('studentroom/live_question_room.html', room_code = room_code)
+    return render_template('studentroom/live_question_room.html', room_code = room_code, serverurl = str(qservurl))
 
 
 @studentroom.route('/lookup_room', methods=['POST'])
