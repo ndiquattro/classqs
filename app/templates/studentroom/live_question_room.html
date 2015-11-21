@@ -4,9 +4,10 @@
 <script src="/static/studentroom/javascript/live_question_room.js"></script>
 <script type=text/javascript>
 var room_code = '{{room_code}}'
+var pass_code = '{{pass_code}}'
 var getroomroute = "{{url_for('admin.lookup_by_roomcode')}}"
 var eventsource_route = '{{serverurl|safe}}'
-console.log(eventsource_route)
+
 </script>
 
 <div class="container">	

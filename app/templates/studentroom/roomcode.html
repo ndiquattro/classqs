@@ -5,6 +5,8 @@
  <script src="/static/studentroom/javascript/roomcode.js"></script>
 <script type=text/javascript>
 var lookuproom_route ="{{url_for('studentroom.lookup_room')}}"
+var addstudent_route = "{{url_for('studentroom.add_newstudent')}}"
+var checkpasscode_route = "{{url_for('studentroom.check_passcode')}}"
 </script>
 
 
@@ -15,7 +17,7 @@ var lookuproom_route ="{{url_for('studentroom.lookup_room')}}"
 
 <div class="row ">
 <div  class="col-xs-12 col-sm-8 col-sm-offset-2 text-center" >
-<label for="roominput"><h2><b>Enter Room Code</b></h2></label>
+<label for="roominput" id="codelabel"><h2><b>Enter Room Code</b></h2></label>
 </div>
 </div>
 <div class="row row-centered">
@@ -23,22 +25,92 @@ var lookuproom_route ="{{url_for('studentroom.lookup_room')}}"
   <div class="col-md-12 col-fixed col-centered">
 <form>
   <div class="form-group">
-    <input type="text" class="form-control roominput input-lg" style="text-align:center" maxlength="5" id="roominput">
+    <input type="text" class="form-control transformupper roominput input-lg" style="text-align:center" maxlength="5" id="roominput">
   </div>
 
 </form>
 </div>
 </div>
 
+<!-- slide down to enterstudent info -->
+<div class="row logrow">
+<div id="logonpan">
+<div class="col-sm-6 text centered" id="entercodecol">
+<h3><b>Enter your passcode</b></h3>
+<form class = "formcol">
 
-<div class="alert alert-danger" role="alert" id="codealert">Invalid Room Code, Try Again</div>
+  <div class="form-group">
+    <input type="text" class="form-control transformupper passclass input-lg" style="text-align:center" maxlength="3" id="passinput">
+  </div>
+<button type="button" class="btn btn-lg btn-success passbtn btn-block" id="submitpassbtn">Submit</button>
+</form>
+<div class="alert alert-danger" role="alert" id="passalert">Invalid passcode. If your forgot your passcode click "Lookup passcode" button. If you need a passcode click the "Get a passcode" button. </div>
+</div>
+<div class="col-sm-6 text centered">
+<h3><b>Don't have a passcode?</b></h3>
+<button type="button" class="btn btn-lg btn-default passbtn" id="passbtn">Get a passcode</button>
+</div>
+<div class="row">
+<div class="col-sm-6 text centered">
+<h3><b>Forgot your passcode?</b></h3>
+<button type="button" class="btn btn-lg btn-default passbtn" id="lookuppassbtn">Lookup passcode</button>
+</div>
+</div>
+
+</div>
+</div><!-- end to enterstudent info -->
+
+<!-- slide down to register new student -->
+<div id="regpan">
+<div class="row">	
+<div class="col-sm-12 text centered" id="firstname">
+<h3><b>First Name</b></h3>
+<form class = "formcol">
+  <div class="form-group">
+    <input type="text" class="form-control input-lg" style="text-align:center" id="firstnameinput">
+  </div>
+</form>
+</div>
+</div>
+
+<div class="row">	
+<div class="col-sm-12 text centered" id="lastname">
+<h3><b>Last Name</b></h3>
+<form class = "formcol">
+  <div class="form-group">
+    <input type="text" class="form-control input-lg" style="text-align:center" id="lastnameinput">
+  </div>
+</form>
+</div>
+</div>
+
+
+<div class="row">	
+<div class="col-sm-12 text centered ">
+<h3><b>Create a 3 letter passcode</b></h3>
+<h4>Tip: you will need to remember this code to log in, so pick something easy like your initials</h4>
+ <div class="form-group formcol">
+    <input type="text" class="form-control transformupper passclass input-lg" style="text-align:center" maxlength="3" id="passcreate">
+  </div>
+</div>
+</div>
 
 <div class="row">
-<div class="col-md-4 col-xs-12 col-md-offset-4" id="submitcol">
-<a href=# class="btn btn-primary btn-lg btn-block" id="roomsubmit" data-toggle="popover" title="Popover Header" data-content="Some content inside the popover">Submit</a>
+<div class="col-md-4 col-xs-12 col-md-offset-4">
+<button class="btn btn-primary btn-lg btn-block submitblock" id="submitbtnnewuser">Submit</button>
+</div>
+</div>
 
+
+</div><!-- end slide to enter new student -->
+
+<div class="alert alert-danger" role="alert" id="codealert">Invalid Room Code, Try Again</div>
+<div class="row">
+<div class="col-md-4 col-xs-12 col-md-offset-4" id="submitcol">
+<button class="btn btn-primary btn-lg btn-block submitblock" id="roomsubmit" data-toggle="popover" title="Popover Header" data-content="Some content inside the popover">Submit</button>
 </div>
 </div>
+
 
 </div>
 </div>

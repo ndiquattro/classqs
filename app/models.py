@@ -102,3 +102,21 @@ class Roomcode_Currques(db.Model):
 
     def __repr__(self):
         return '<Roomcode_Currques %r>' % self.currquesid
+
+class Students_Registered(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    firstname = db.Column(db.String(140))
+    lastname = db.Column(db.String(140))
+    roomcode = db.Column(db.String(140))
+    passcode = db.Column(db.String(3))   
+    answer = db.Column(db.Integer)
+
+    @staticmethod
+    def add_student(firstname, lastname, roomcode, passcode):
+            
+        q = Students_Registered(firstname=firstname,
+                                  lastname=lastname,
+                                  roomcode=roomcode,
+                                  passcode=passcode)
+        db.session.add(q)
+        db.session.commit()

@@ -9,6 +9,7 @@ var nextquestid;
 var nextquestionselected = false;
 var countdown = false;
 var paused;
+var currqjson;
 //get current question for room
  $.getJSON(getroomroute , {
         r: room_code,   
@@ -36,10 +37,13 @@ var paused;
         });
 
            if(data.islive==0){
+            sendstudentroom(0, null);
             closequestion();
-           
             paused = true;
-           }
+           }else { 
+            sendstudentroom(1, data);
+            storeq(data);
+          }
 
      });
 
@@ -89,6 +93,8 @@ var paused;
           +'</div>');
 
                });
+                //store info for current quesiton
+                storeq(data);
           });
 
         });
@@ -250,7 +256,7 @@ $(document).on('click','button.pause', pausetime);
 function closequestion() {
   
   //tell student room to close
-  sendstudentroom();
+  sendstudentroom(0, null);
   if(live !=false){
     $('#endbtn').prop('disabled', true);
     $("#statuslabel").text('Question has Ended');
@@ -279,12 +285,15 @@ function closequestion() {
 //restart question btn
 $('#restartbtn').on('click', function() {
   
-restartquestion();
+  restartquestion();
 
 });
 
 //function to restart question
 function restartquestion() {
+
+  //send current question to student room
+  sendstudentroom(1, currqjson)
 
  if(live !=true){
 
@@ -305,7 +314,7 @@ function restartquestion() {
      live = true;
  }
 
-updateroomlabel(true);
+  updateroomlabel(true);
 }
 
 //click button to change to next question or select new question
@@ -325,6 +334,9 @@ if(nextquestid==null || nextquestionselected==false){
 
 //function to change the current room question in the db and on the control page, also starts the question
 function changecurrentques(){
+
+
+
 //enable the endquestionbutton
 $('#endbtn').prop('disabled', false);
 
@@ -344,8 +356,6 @@ nextquestionselected = false;
 var dataArray = {
   "quesid" : nextquestid
 };
-
-currquesid = nextquestid;
 
 var dataJSON = JSON.stringify(dataArray);
 
@@ -398,6 +408,12 @@ $.getJSON(getquesbyid_route, {
            +'<tr>');       
            
                 });
+
+            //update the student room with new quesiton
+            sendstudentroom(1, data);
+            //store info for current quesiton
+            storeq(data);
+         
             });
 
 //make question live
@@ -443,11 +459,12 @@ function updateroomlabel(is_live){
 
 
 //function that updates the student room
-function sendstudentroom(){
+function sendstudentroom(islive, qjson){
 
-//if room is closed do this
+
 var dataArray = {
-            "islive" : 0
+            "islive" : islive,
+            "qjson" : qjson
                   };
       var dataJSON = JSON.stringify(dataArray);
       $.ajax({
@@ -463,6 +480,10 @@ var dataArray = {
             }
       });
 
+}//end send to student room
+
+function storeq(q){
+currqjson = q 
 }
 
   }); //end on document ready
