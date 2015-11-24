@@ -8,8 +8,9 @@ var live;
 var nextquestid;
 var nextquestionselected = false;
 var countdown = false;
-var paused;
+var paused = true;
 var currqjson;
+var timer_reset_enabled = false;
 //get current question for room
  $.getJSON(getroomroute , {
         r: room_code,   
@@ -39,7 +40,7 @@ var currqjson;
            if(data.islive==0){
             sendstudentroom(0, null);
             closequestion();
-            paused = true;
+           
            }else { 
             sendstudentroom(1, data);
             storeq(data);
@@ -149,8 +150,9 @@ $(document).on('click','button.pause', pausetime);
 
 // Function for starting Countdown timer
  function startime(){
+    timer_reset_enabled = true;
     countdown = true;
-    paused = false;
+
     $("#strbtn").text('Pause');
     $(this).toggleClass("btn-info start pause");
 
@@ -216,7 +218,7 @@ $(document).on('click','button.pause', pausetime);
       $('#strbtn').show();
       clearInterval(intervalfunct);
       resettime();
-      if(paused != true){
+      if(paused != true && timer_reset_enabled == true){
         $('#strbtn').toggleClass("btn-info");
         $('#strbtn').toggleClass("start pause");
       }
@@ -254,7 +256,7 @@ $(document).on('click','button.pause', pausetime);
 
 //function to end quesion
 function closequestion() {
-  
+   timer_reset_enabled = false;
   //tell student room to close
   sendstudentroom(0, null);
   if(live !=false){
@@ -293,7 +295,7 @@ $('#restartbtn').on('click', function() {
 function restartquestion() {
 
   //send current question to student room
-  sendstudentroom(1, currqjson)
+  sendstudentroom(1, currqjson);
 
  if(live !=true){
 
@@ -420,6 +422,7 @@ $.getJSON(getquesbyid_route, {
  $("#endpanel").slideUp("slow");
  updateroomlabel(true);
   live = true;
+
 }//end starting next question
 
 //tell database to end/start current question
@@ -441,6 +444,7 @@ var dataArray = {
                 console.log('Error:', error);
             }
       });
+
 
 }//end start_end_db
 

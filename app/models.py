@@ -1,6 +1,6 @@
 from app import db
 from flask.ext.login import UserMixin
-
+from sqlalchemy.sql import and_
 
 # User table
 class User(UserMixin, db.Model):
@@ -119,4 +119,12 @@ class Students_Registered(db.Model):
                                   roomcode=roomcode,
                                   passcode=passcode)
         db.session.add(q)
+        db.session.commit()
+
+    @staticmethod
+    def add_studentanswer(room_code, pass_code, answer):
+        print room_code
+        print pass_code
+        studentcheck = Students_Registered.query.filter(and_(Students_Registered.roomcode == room_code,  Students_Registered.passcode == pass_code)).first()
+        studentcheck.answer = answer
         db.session.commit()

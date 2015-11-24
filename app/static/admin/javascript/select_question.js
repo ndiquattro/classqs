@@ -39,7 +39,7 @@ $("#folderselect").on('click', '.btnSelect', function(){
           +'<table class="table">'
          +'<tbody>'
            +'<tr>'
-        +'<td><a href="#" class="btn btnSelect quesbtn btn-Info" id="'+this.QuestionID+'">Ask Live!</a></td>'
+        +'<td><a href="#" class="btn btnSelect quesbtn btn-Info" id="'+this.QuestionID+'">Ask in Live Question Room!</a></td>'
            +'</tr>'
            +'</tbody>'
            +'</table>'

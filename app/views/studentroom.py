@@ -3,7 +3,7 @@ from flask import Blueprint
 from app.models import Question, Options, Roomcode_Currques, Students_Registered
 import questionserver
 from sqlalchemy.sql import and_
-
+import time
 studentroom = Blueprint('studentroom', __name__)
 
 
@@ -69,3 +69,12 @@ def check_passcode():
        
 
     return jsonify(urlr = redir)
+
+
+@studentroom.route('/add_studentans', methods=['POST'])
+def add_studentans():
+
+    studentinfo = request.get_json(force=True)
+    Students_Registered.add_studentanswer(studentinfo['roomcode'], studentinfo['passcode'], studentinfo['answer'])
+
+    return jsonify(message = "Success")

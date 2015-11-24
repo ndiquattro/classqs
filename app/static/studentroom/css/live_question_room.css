@@ -4,6 +4,7 @@
 }
 
 
+
 .box-shadow--8dp {
     box-shadow: 0 8px 10px 1px rgba(0, 0, 0, .14), 0 3px 14px 2px rgba(0, 0, 0, .12), 0 5px 5px -3px rgba(0, 0, 0, .2);
 }
@@ -20,5 +21,52 @@ font-size: 28px;
 
 #substart{
 	padding-top: 20px;
+
+}
+
+#successmsg{
+  text-align: center;
+	display:none;
+  opacity: 0;
+  position:relative;
+  font-size: 38px;
+  font-weight: bold;
+  
+}
+
+#answertxt{
+ text-align: center;
+  display:none;
+  opacity: 0;
+  position:relative;
+  font-size: 22px;
+}
+
+.endmsg{
+ text-align: center;
+  display:none;
+  opacity: 0;
+  position:relative;
+
+
+}
+
+#bendmsg{
+    font-size: 38px;
+  font-weight: bold;
+}
+
+#pendmsg{
+    font-size: 22px;
+
+}
+
+#checkimg{
+
+  display:none;
+  opacity: 0;
+  position:relative;
+   margin-left: auto;
+    margin-right: auto
 
 }
