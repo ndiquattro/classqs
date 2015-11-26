@@ -1,6 +1,8 @@
 import imp
 from migrate.versioning import api
 from app import db
+import datetime
+from sqlalchemy import Column, Integer, DateTime
 from config import SQLALCHEMY_DATABASE_URI
 from config import SQLALCHEMY_MIGRATE_REPO
 v = api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)

@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+
+
 //stream new updates to room
  sse = new EventSource(eventsource_route);
  sse.onmessage = function(message) {
@@ -39,7 +41,7 @@ $(".endmsg").fadeOut(100);
 $("#checkimg").fadeOut(100);
 $(".successmsg").fadeOut(100);
 
-  $("#currentquestion").append('<div class="panel panel-primary quespan">'
+  $("#currentquestion").append('<div class="panel panel-primary quespan" id="'+data.archid+'">'
           +'<div class="panel-heading" align="center"><h3 class ="text-center"><h3>'+data.qtxt+'</h3>'
           +'</div>'
           +'<div class="panel-body anstable">'
@@ -82,8 +84,8 @@ function btnstylefunc(){
 
             //submit answer to server
             $( "#submitbtn" ).on( "click", function() {
-              
-               submitanswer($('button.active').attr('id'))
+        
+               submitanswer($('button.active').attr('id'), $('.quespan').attr('id'))
 
 
               }); // end submit answer to server
@@ -148,13 +150,17 @@ $("#checkimg").animate({
 // });
 
 //function to submit student answer
-function submitanswer(answer){
+function submitanswer(answer, archiveid){
 $('#ansselctmsg').text(parseInt(answer)+1)
 $('.btn-block').prop('disabled', true)
+
+console.log(archiveid)
+
 var dataArray = {
   "roomcode" : room_code,
   "passcode" : pass_code,
-  "answer" : answer
+  "answer" : answer,
+  "archid" : archiveid
 };
 
 var dataJSON = JSON.stringify(dataArray);

@@ -39,7 +39,9 @@ $("#folderselect").on('click', '.btnSelect', function(){
           +'<table class="table">'
          +'<tbody>'
            +'<tr>'
-        +'<td><a href="#" class="btn btnSelect quesbtn btn-Info" id="'+this.QuestionID+'">Ask in Live Question Room!</a></td>'
+           // DO NOT CHANGE QUESTION ROOM QUESTION FROM HERE UNLESS YOU FIND A WAY TO PREVENT ROOM FROM ALWAYS ARCHIVING/CHANGING THE QUESTION
+           // WHEN THE PAGE LOADs
+        // +'<td><a href="#" class="btn btnSelect quesbtn btn-Info" id="'+this.QuestionID+'">Ask in Live Question Room!</a></td>'
            +'</tr>'
            +'</tbody>'
            +'</table>'

@@ -38,11 +38,11 @@ var timer_reset_enabled = false;
         });
 
            if(data.islive==0){
-            sendstudentroom(0, null);
-            closequestion();
+            
+            closequestion(false);
            
            }else { 
-            sendstudentroom(1, data);
+        
             storeq(data);
           }
 
@@ -171,7 +171,7 @@ $(document).on('click','button.pause', pausetime);
 
         if (--timer < 0) {
             timer = duration;
-            closequestion();
+            closequestion(true);
             reset = true;
             clearInterval(intervalfunct);
             countdown = false;
@@ -250,15 +250,17 @@ $(document).on('click','button.pause', pausetime);
          $("#strbtn").text('Start');
        }
        paused = false;
-    closequestion();
+    closequestion(true);
     countdown = false;
   });
 
 //function to end quesion
-function closequestion() {
+function closequestion(sendtoroom) {
    timer_reset_enabled = false;
   //tell student room to close
+  if (sendtoroom == true){
   sendstudentroom(0, null);
+}
   if(live !=false){
     $('#endbtn').prop('disabled', true);
     $("#statuslabel").text('Question has Ended');
@@ -465,6 +467,66 @@ function updateroomlabel(is_live){
 //function that updates the student room
 function sendstudentroom(islive, qjson){
 
+//check if live, if qjson is null look it up
+if(islive == 1 && qjson == null ){
+
+ $.getJSON(getroomroute , {
+        r: room_code,   
+
+      }, function(data) {
+      
+        var dataArray = {
+            "data" : data,
+            "roomcode" : room_code
+                  };
+      var dataJSON = JSON.stringify(dataArray);
+      $.ajax({
+      type: "POST",
+      url: archiveq_route,
+      data:  dataJSON,
+      dataType: 'json',
+      success: function(response){
+          
+           sendtoroom(1 , response['qdata'])
+     
+                },
+      error: function(error) {          
+                console.log('Error:', error);
+            }
+      });
+
+      
+      });
+
+} else if(islive == 1 && qjson != null){
+  
+var dataArray = {
+            "data" : qjson,
+            "roomcode" : room_code
+                  };
+      var dataJSON = JSON.stringify(dataArray);
+      $.ajax({
+      type: "POST",
+      url: archiveq_route,
+      data:  dataJSON,
+      dataType: 'json',
+      success: function(response){
+      
+              sendtoroom(1, response['qdata'])
+                },
+      error: function(error) {          
+                console.log('Error:', error);
+            }
+      });
+
+} else if (islive == 0 && qjson == null){
+sendtoroom(0, null)
+}
+
+//send to student room
+function sendtoroom(islive, qjson){
+
+
 
 var dataArray = {
             "islive" : islive,
@@ -483,11 +545,13 @@ var dataArray = {
                 console.log('Error:', error);
             }
       });
+}
 
 }//end send to student room
 
 function storeq(q){
 currqjson = q 
+
 }
 
   }); //end on document ready

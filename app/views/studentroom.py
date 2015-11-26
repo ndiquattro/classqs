@@ -1,9 +1,10 @@
 from flask import render_template, request, jsonify, json, Blueprint, url_for, redirect
 from flask import Blueprint
-from app.models import Question, Options, Roomcode_Currques, Students_Registered
+from app.models import Question, Options, Roomcode_Currques, students_registered, student_answers, asked_questions
 import questionserver
+from flask.ext.login import current_user
 from sqlalchemy.sql import and_
-import time
+import time, datetime
 studentroom = Blueprint('studentroom', __name__)
 
 
@@ -42,11 +43,11 @@ def add_newstudent():
     studentinfo = request.get_json(force=True)
     redir = ''
     # check if user already has a room
-    studentcheck = Students_Registered.query.filter(and_(Students_Registered.roomcode == studentinfo['roomcode'], Students_Registered.passcode == studentinfo['passcode'])).first()
+    studentcheck = students_registered.query.filter(and_(students_registered.roomcode == studentinfo['roomcode'], students_registered.passcode == studentinfo['passcode'])).first()
 
     # if student is not registered
     if studentcheck is None:
-        Students_Registered.add_student(studentinfo['firstname'], studentinfo['lastname'], studentinfo['roomcode'],studentinfo['passcode'])
+        students_registered.add_student(studentinfo['firstname'], studentinfo['lastname'], studentinfo['roomcode'],studentinfo['passcode'])
         redir = url_for('studentroom.live_question_room', room_code = studentinfo['roomcode'], passcode=studentinfo['passcode'])
     else:
         redir = 'none'
@@ -59,7 +60,7 @@ def add_newstudent():
 def check_passcode():
 
     studentinfo = request.get_json(force=True)
-    studentcheck = Students_Registered.query.filter(and_(Students_Registered.roomcode == studentinfo['roomcode'], Students_Registered.passcode == studentinfo['passcode'])).first()
+    studentcheck = students_registered.query.filter(and_(students_registered.roomcode == studentinfo['roomcode'], students_registered.passcode == studentinfo['passcode'])).first()
 
     # if student is not registered
     if studentcheck is None:
@@ -74,7 +75,41 @@ def check_passcode():
 @studentroom.route('/add_studentans', methods=['POST'])
 def add_studentans():
 
-    studentinfo = request.get_json(force=True)
-    Students_Registered.add_studentanswer(studentinfo['roomcode'], studentinfo['passcode'], studentinfo['answer'])
+    studentdata = request.get_json(force=True)
+    studentcheck = students_registered.query.filter(and_(students_registered.roomcode == studentdata['roomcode'], students_registered.passcode == studentdata['passcode'])).first()
+    sid = studentcheck.id
+    archques = asked_questions.query.get(studentdata['archid'])
+    cora = archques.cora
+
+    if int(studentdata['answer']) == int(cora):
+        a_correct = 1
+    else:
+        a_correct = 0
+        
+    #check if student has already asnwered for this quesiton, if not then create a new answer
+    studentanscheck = student_answers.query.filter(and_(student_answers.studentid == sid, student_answers.asked_question_id == studentdata['archid'])).first()
+
+    if studentanscheck is None:
+        student_answers.add_studentanswer(sid, studentdata['archid'], studentdata['answer'], a_correct)
+
+    else:
+        student_answers.change_studentanswer(sid, studentdata['archid'], studentdata['answer'], a_correct)
 
     return jsonify(message = "Success")
+
+@studentroom.route('/archive_asked_question', methods=['POST'])
+def archive_asked_question():
+    qinfo = request.get_json(force=True)
+    roomcode =  qinfo['roomcode']
+    qdata =  qinfo['data']
+    uid = current_user.id
+    date = datetime.date.today().strftime("%B %d, %Y")
+    time = datetime.datetime.now().strftime("%I:%M%p")
+    archid = asked_questions.add_asked_qestion(date, time, uid, roomcode, qdata['qname'], qdata['qtxt'], qdata['cora'], qdata['answers'])
+    
+    #add archid id to the current room so that users can get it if they didnt recieve last server push
+    Roomcode_Currques.change_archiveid(qinfo['roomcode'], archid)
+
+    qdata['archid'] =  archid
+
+    return jsonify(qdata = qdata)

@@ -107,7 +107,7 @@ def lookup_by_roomcode():
     answers = Options.query.filter(Options.qid == questroom.currquesid).all()
     ans = list(set([option.opt for option in answers]))
     islive = questroom.isLive
-    return jsonify(qname=question.qname, qtxt=question.quest, answers=ans, quid=questroom.currquesid, islive=islive)
+    return jsonify(qname=question.qname, qtxt=question.quest, answers=ans, quid=questroom.currquesid, islive=islive, cora=question.cora, archid=questroom.currarchid)
 
 # looks up questions and answers by roomcode
 @admin.route('/lookup_by_qid')
@@ -116,7 +116,7 @@ def lookup_by_qid():
     question = Question.query.get(quesid)
     answers = Options.query.filter(Options.qid == quesid).all()
     ans = list(set([option.opt for option in answers]))
-    return jsonify(qname=question.qname, qtxt=question.quest, answers=ans)
+    return jsonify(qname=question.qname, qtxt=question.quest, answers=ans, cora=question.cora)
 
 # toggle question to be live, 0 = ended, 1 = live
 @admin.route('/toggle_ques_live', methods=['POST'])
