@@ -1,5 +1,5 @@
 from flask import render_template, request, jsonify, json, Blueprint, url_for, redirect
-from app.models import User, Question, Options, Roomcode_Currques
+from app.models import User, Question, Options, Roomcode_Currques, asked_questions, asked_options
 from flask.ext.login import current_user
 import string, random
 # Initiate Blueprint
@@ -126,6 +126,7 @@ def toggle_ques_live():
     Roomcode_Currques.toggle_ques_live(uid, data['islive'])
     return jsonify(response="success")
 
+# provides route to control panel and states if it is live
 @admin.route('/linkroomcode')
 def linkroomcode():
 
@@ -135,3 +136,50 @@ def linkroomcode():
     controlurl = url_for('admin.question_controlpanel', room_code=roomcode)
     
     return jsonify(room_url=controlurl, islive = islive)
+
+
+# provides route to results page
+@admin.route('/linkresults')
+def linkresults():
+    roomcode = request.args.get('r')
+    resulturl = url_for('admin.linkresults', room_code=roomcode)
+
+    return jsonify(result_url=resulturl)
+
+# link to bar chart of question results
+@admin.route('/resultspage/<room_code>')
+def resultspage(room_code):
+
+    return render_template('admin/resultspage.html', room_code =  room_code)
+
+
+@admin.route('/getresults') 
+def getresults():
+    room_code = request.args.get('r')
+    qdata = Roomcode_Currques.query.filter_by(roomcode=room_code).first()
+    question = asked_questions.query.get(qdata.currarchid)
+    student_answers = question.studentans.all()
+    options = Options.query.filter_by(qid=qdata.currquesid).all()
+    print options
+    num_options = len(options)
+    num_responses = len(student_answers)
+    anstxt = list(set([option.opt for option in options]))
+    qtxtdata = dict(qname=question.qname, qtxt=question.quest, answers=anstxt, cora=question.cora)
+
+    #calculate the number of correct answers
+    corr_ans = question.studentans.filter_by(answered_correctly="1").all()
+    num_correct = len(corr_ans)
+
+    # calculate the number of responses for each answer option
+    resultarray = []
+    for i in range(0, num_options):
+        totalans = 0
+        for a in student_answers:
+            if a.answer is i:
+                totalans += 1
+        resultarray.append(totalans)
+
+    results = dict(num_options=num_options, num_ans=num_responses, num_correct=num_correct, qtxtdata = qtxtdata, resultarray=resultarray)
+
+
+    return jsonify(results=results)

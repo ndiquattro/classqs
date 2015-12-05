@@ -1,0 +1,15 @@
+#questext {
+
+font-size: 26px;
+
+
+}
+
+#txtbackground{
+/*background-color: red; */
+	background-color: rgba(50, 93, 129, 0.1); 
+	/*padding: 10px;*/
+	margin: 20px 10px;
+	border-radius: 10px;
+	max-width: 1400px
+}

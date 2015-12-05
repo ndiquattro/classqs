@@ -80,9 +80,13 @@ def add_studentans():
     sid = studentcheck.id
     archques = asked_questions.query.get(studentdata['archid'])
     cora = archques.cora
-
-    if int(studentdata['answer']) == int(cora):
-        a_correct = 1
+    # print studentdata['answer']
+    # a_correct = 0
+    if cora != "NoneCorrect":
+        if int(studentdata['answer']) == int(cora):
+            a_correct = 1
+        else:
+            a_correct = 0
     else:
         a_correct = 0
         

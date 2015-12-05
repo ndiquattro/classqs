@@ -257,6 +257,7 @@ $(document).on('click','button.pause', pausetime);
 //function to end quesion
 function closequestion(sendtoroom) {
    timer_reset_enabled = false;
+   
   //tell student room to close
   if (sendtoroom == true){
   sendstudentroom(0, null);
@@ -338,8 +339,6 @@ if(nextquestid==null || nextquestionselected==false){
 
 //function to change the current room question in the db and on the control page, also starts the question
 function changecurrentques(){
-
-
 
 //enable the endquestionbutton
 $('#endbtn').prop('disabled', false);
@@ -549,9 +548,15 @@ var dataArray = {
 
 }//end send to student room
 
-function storeq(q){
-currqjson = q 
+//button to get the results of the question
+$('#resultbtn').on('click', function() {
 
-}
+window.open(result_route+room_code, "", "width=1000, height=1000");
+
+  }); 
+
+
+//store current quesiton
+function storeq(q){currqjson = q}
 
   }); //end on document ready
