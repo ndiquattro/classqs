@@ -9,6 +9,7 @@ var pass_code = '{{pass_code}}'
 var getroomroute = "{{url_for('admin.lookup_by_roomcode')}}"
 var eventsource_route = '{{serverurl|safe}}'
 var studentans_route = "{{url_for('studentroom.add_studentans')}}"
+var getstudentans_route = "{{url_for('studentroom.get_student_answer')}}"
 </script>
 
 <div class="container">	
@@ -37,6 +38,7 @@ var studentans_route = "{{url_for('studentroom.add_studentans')}}"
 <div class="row">
 <br><div class="endmsg timer" id="pendmsg">waiting for next question to begin</div>
 <h1><div class="glyphicon glyphicon-hourglass endmsg timer" aria-hidden="true"></div></h1>
+<br><div class="endmsg timer" id="ansremind"><h3>You chose: <b>Answer <span id="ansselctmsgremind"></span></b></h3></div>
 </div>
 </div>
 

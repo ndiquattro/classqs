@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<script type=text/javascript>
+var results_route ="{{url_for('admin.getresults_all')}}"
+var room_code = "{{room_code}}"
+var resulturl ="{{resulturl}}"
+var delete_route = "{{url_for('admin.delete_q_arch')}}"
+</script>
+<link href="/static/admin/css/question_stats.css" rel="stylesheet">
+<script src="/static/admin/javascript/question_stats.js"></script>
+<div class="container">	
+<div class="row text-center">	
+<div class="col-sm-12"><h2>Question Results</h2></div>
+</div>
+<hr>
+<div class="row">	
+<div class="col-sm-12">         
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Question</th>
+        <th>Total Responses</th>
+        <th>Percent Correct</th>
+      </tr>
+    </thead>
+    <tbody id ="resultbody">
+    </tbody>
+  </table>
+  </div>
+</div>
+</div>
+{% endblock %}

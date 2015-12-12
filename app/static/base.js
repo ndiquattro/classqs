@@ -1,7 +1,22 @@
  $(document).ready(function(){
 
-    
+//go to question statistics page
+  $("#qstatlink").on('click', function(){
+    $.getJSON(qstatlink_route, function(data) {
+        window.location = data['questionstats_url']
+        
+        }); 
+  }); 
 
+//go to gradebook page
+ $("#gradebooklink").on('click', function(){
+    $.getJSON(gradebooklink_route, function(data) {
+        window.location = data['gradebookurl_url']
+
+        }); 
+  });
+
+//update live question room button
 if(islogged){
 
 $.getJSON(getroomlink_route, function(data) {
@@ -9,11 +24,11 @@ $.getJSON(getroomlink_route, function(data) {
 
         
              if(data.islive == 1){
-            $("#roomlink").append('<a href="'+data.room_url+'" id="roomhref"><span class="glyphicon glyphicon-stats" '
+            $("#roomlink").append('<a href="'+data.room_url+'" id="roomhref"><span class="glyphicon glyphicon-blackboard" '
               +'aria-hidden="true"></span>Question Room <span class="label livehead label-primary">Live!</span></a>') 
         }
              if(data.islive == 0){
-              $("#roomlink").append('<a href="'+data.room_url+'" id="roomhref"><span class="glyphicon glyphicon-stats" '
+              $("#roomlink").append('<a href="'+data.room_url+'" id="roomhref"><span class="glyphicon glyphicon-blackboard" '
               +'aria-hidden="true"></span>Question Room <span class="label livehead label-danger">Question Ended</span></a>')
              }
 

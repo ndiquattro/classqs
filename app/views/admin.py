@@ -67,7 +67,8 @@ def getquestions():
 @admin.route('/question_controlpanel/<room_code>')
 def question_controlpanel(room_code):
     posturl = url_for('questionserver.event_stream', room_code=room_code)
-    return render_template('admin/live_question_controlpanel.html', room_code = room_code, posturl=str(posturl))
+    resulturl = url_for('admin.resultspage', room_code=room_code, qid = "default")
+    return render_template('admin/live_question_controlpanel.html', room_code = room_code, posturl=str(posturl), resulturl=resulturl)
 
 
 @admin.route('/add_room_currques', methods=['POST'])
@@ -138,29 +139,31 @@ def linkroomcode():
     return jsonify(room_url=controlurl, islive = islive)
 
 
-# provides route to results page
-@admin.route('/linkresults')
-def linkresults():
-    roomcode = request.args.get('r')
-    resulturl = url_for('admin.linkresults', room_code=roomcode)
+@admin.route('/resultspage/<room_code>/<qid>')
+def resultspage(room_code, qid):
 
-    return jsonify(result_url=resulturl)
+    return render_template('admin/resultspage.html', room_code = room_code, qid=qid)
 
-# link to bar chart of question results
-@admin.route('/resultspage/<room_code>')
-def resultspage(room_code):
-
-    return render_template('admin/resultspage.html', room_code =  room_code)
-
-
+# generates stats for last question asked
 @admin.route('/getresults') 
 def getresults():
+ 
     room_code = request.args.get('r')
-    qdata = Roomcode_Currques.query.filter_by(roomcode=room_code).first()
-    question = asked_questions.query.get(qdata.currarchid)
+    archid = request.args.get('aid')
+
+    # if only a roomcode is supplied, just get the last question, else get the archived question
+    if str(archid) == "default":
+        
+        qdata = Roomcode_Currques.query.filter_by(roomcode=room_code).first()
+        question = asked_questions.query.get(qdata.currarchid)
+
+    else:
+        
+        question = asked_questions.query.get(archid)
+        
     student_answers = question.studentans.all()
-    options = Options.query.filter_by(qid=qdata.currquesid).all()
-    print options
+    options = asked_options.query.filter_by(qid=question.id).all()
+
     num_options = len(options)
     num_responses = len(student_answers)
     anstxt = list(set([option.opt for option in options]))
@@ -180,6 +183,65 @@ def getresults():
         resultarray.append(totalans)
 
     results = dict(num_options=num_options, num_ans=num_responses, num_correct=num_correct, qtxtdata = qtxtdata, resultarray=resultarray)
-
-
     return jsonify(results=results)
+
+# Generates link to overall stats
+@admin.route('/getresults_all') 
+def getresults_all():
+    room_code = request.args.get('r')
+    questions = asked_questions.query.filter_by(roomcode=room_code).all()
+    data = []
+
+    i = 0
+    for q in questions:
+        quesinfo = {}
+        quesinfo['archid'] = q.id
+        quesinfo['dateasked'] = q.dateasked
+        quesinfo['timeasked'] = q.timeasked
+        quesinfo['qtxt'] = q.quest
+        answers = questions[i].studentans.all()
+        quesinfo['totalresponse'] = len(answers)
+        correct = questions[i].studentans.filter_by(answered_correctly="1").all()
+        quesinfo['numcorrect'] = len(correct)
+        data.append(quesinfo)
+        i+=1
+
+    return jsonify(results=data)
+
+
+# generates link to overall question stat page
+@admin.route('/linkquestionstats')
+def linkquestionstats():
+    questroom = Roomcode_Currques.query.filter_by(authorid=current_user.id).first()
+    questionstatsurl = url_for('admin.question_stats', room_code=questroom.roomcode)
+
+    return jsonify(questionstats_url=questionstatsurl)
+
+# link to overall question stats page
+@admin.route('/question_stats/<room_code>')
+def question_stats(room_code):
+    resultspageurl = url_for('admin.resultspage', room_code=room_code, qid="x")
+
+    return render_template('admin/question_stats.html', room_code =  room_code, resulturl=resultspageurl)
+
+# generates link to gradebook page
+@admin.route('/linkgradebook')
+def linkgradebook():
+    questroom = Roomcode_Currques.query.filter_by(authorid=current_user.id).first()
+    gradebookurl = url_for('admin.gradebook', room_code=questroom.roomcode)
+
+    return jsonify(gradebookurl_url=gradebookurl)
+
+# link to gradebook page
+@admin.route('/gradebook/<room_code>')
+def gradebook(room_code):
+
+    return render_template('admin/gradebook.html', room_code =  room_code)
+
+# delete question from archive
+@admin.route('/delete_q_arch', methods=['POST'])
+def delete_q_arch():
+    data = request.get_json(force=True)
+    asked_questions.delete_asked_question(data['quid'])
+
+    return jsonify(message="deleted question "+data['quid'])

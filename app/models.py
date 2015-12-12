@@ -190,6 +190,13 @@ class asked_questions(db.Model):
 
         db.session.commit()
         return quid
+
+    @staticmethod
+    def delete_asked_question(quid):
+        asked_questions.query.filter_by(id=quid).delete()
+        asked_options.query.filter_by(qid=quid).delete()
+        student_answers.query.filter_by(asked_question_id=quid).delete()
+        db.session.commit()
     
 #Archives the answers for an asked question
 class asked_options(db.Model):

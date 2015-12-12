@@ -117,3 +117,19 @@ def archive_asked_question():
     qdata['archid'] =  archid
 
     return jsonify(qdata = qdata)
+
+@studentroom.route('/get_student_answer') 
+def get_student_answer():
+    room_code = request.args.get('r')
+    pass_code = request.args.get('p')
+    roomcheck = Roomcode_Currques.query.filter_by(roomcode = room_code).first()
+
+    studentcheck = students_registered.query.filter(and_(students_registered.roomcode == room_code, students_registered.passcode == pass_code)).first()
+    studentanswers = student_answers.query.filter(and_(student_answers.studentid == studentcheck.id, student_answers.asked_question_id == roomcheck.currarchid)).first()
+    
+    if studentanswers is not None:
+        s_answer = studentanswers.answer
+    else: 
+        s_answer = None
+
+    return jsonify(answer = s_answer)

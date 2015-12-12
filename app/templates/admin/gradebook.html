@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<script type=text/javascript>
+var getuserinfo_route = '{{userinfo_route}}'
+var getquestions_route ='{{getquestions_route}}'
+var add_room_currques_route ="{{url_for('admin.add_room_currques')}}"
+</script>
+<link href="/static/admin/css/gradebook.css" rel="stylesheet">
+<script src="/static/admin/javascript/gradebook.js"></script>
+<div class="container">
+<div class="row">	
+<div class="col-xs-12">Hello
+
+</div>
+</div>
+</div>
+
+
+{% endblock %}

@@ -2,7 +2,7 @@ $(document).ready(function(){
 
 $.getJSON(results_route , {
         r: room_code,   
-
+        aid: qid
       }, function(data) {
 
         var results = data['results'];

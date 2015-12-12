@@ -1,4 +1,4 @@
- $(document).ready(function(){
+  $(document).ready(function(){
 
 var intervalfunct;
 var duration;
@@ -11,6 +11,9 @@ var countdown = false;
 var paused = true;
 var currqjson;
 var timer_reset_enabled = false;
+var currurl;
+var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWUYZ".split("");
+
 //get current question for room
  $.getJSON(getroomroute , {
         r: room_code,   
@@ -30,11 +33,11 @@ var timer_reset_enabled = false;
 
            var i =0;
            $.each(data.answers, function(){
-            i+=1;
+            
            $("#ans").append('<tr>'
-           +'<td><h3><b>'+i+') </b>'+this+'</h3></td>'
+           +'<td><h3><b>'+alphabet[i]+') </b>'+this+'</h3></td>'
            +'<tr>');    
-           
+           i+=1;
         });
 
            if(data.islive==0){
@@ -132,11 +135,11 @@ $.getJSON(getquesbyid_route, {
 
            var i =0;
            $.each(data.answers, function(){
-            i+=1;
+            
            $("#ansnext").append('<tr>'
-           +'<td><h4><b>'+i+') </b>'+this+'</h4></td>'
+           +'<td><h4><b>'+alphabet[i]+') </b>'+this+'</h4></td>'
            +'<tr>');    
-           
+           i+=1;
         });
 
 
@@ -405,11 +408,11 @@ $.getJSON(getquesbyid_route, {
 
            var i =0;
            $.each(data.answers, function(){
-            i+=1;
+            
            $("#ans").append('<tr>'
-           +'<td><h3><b>'+i+') </b>'+this+'</h3></td>'
+           +'<td><h3><b>'+alphabet[i]+') </b>'+this+'</h3></td>'
            +'<tr>');       
-           
+            i+=1;
                 });
 
             //update the student room with new quesiton
@@ -454,10 +457,10 @@ function updateroomlabel(is_live){
   $("#roomhref").remove();
 
       if(is_live == true){
-    $("#roomlink").append('<a href=# id="roomhref"><span class="glyphicon glyphicon-stats" '
+    $("#roomlink").append('<a href=# id="roomhref"><span class="glyphicon glyphicon-blackboard" '
               +'aria-hidden="true"></span>Question Room <span class="label livehead label-primary">Live!</span></a>')
     }else{
-      $("#roomlink").append('<a href=# id="roomhref"><span class="glyphicon glyphicon-stats" '
+      $("#roomlink").append('<a href=# id="roomhref"><span class="glyphicon glyphicon-blackboard" '
               +'aria-hidden="true"></span>Question Room <span class="label livehead label-danger">Question Ended</span></a>')
     }
 }//end live label
@@ -551,8 +554,8 @@ var dataArray = {
 //button to get the results of the question
 $('#resultbtn').on('click', function() {
 
-window.open(result_route+room_code, "", "width=1000, height=1000");
 
+ window.open(result_route, "", "width=1000, height=1000");
   }); 
 
 

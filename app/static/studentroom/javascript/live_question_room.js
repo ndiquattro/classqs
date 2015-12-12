@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-
+var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWUYZ".split("");
 
 //stream new updates to room
  sse = new EventSource(eventsource_route);
@@ -96,6 +96,21 @@ function btnstylefunc(){
 //function to show quesiton is closed
 function closeq(){
 
+//lookup student answer
+$.getJSON(getstudentans_route , {
+        r: room_code,   
+        p: pass_code
+      }, function(data) {
+        
+        if(data["answer"] == null){
+          
+          $('#ansremind').css("display", "none")
+        }else{
+        
+        $('#ansselctmsgremind').text(alphabet[data['answer']])}
+      })
+
+
   $(".quespan").fadeOut(100, function(){
 $('.endmsg').css('display','block');
     $('.endmsg').css('opacity','0');
@@ -110,6 +125,7 @@ $('.endmsg').css('display','block');
   $(".smsg").fadeOut(200, function(){
 $('.endmsg').css('display','block');
     $('.endmsg').css('opacity','0');
+      $('#ansremind').css("display", "block")
       $(".endmsg").animate({
 
         opacity: "1"
@@ -151,10 +167,10 @@ $("#checkimg").animate({
 
 //function to submit student answer
 function submitanswer(answer, archiveid){
-$('#ansselctmsg').text(parseInt(answer)+1)
-$('.btn-block').prop('disabled', true)
 
-console.log(archiveid)
+
+$('#ansselctmsg').text(alphabet[answer])
+$('.btn-block').prop('disabled', true)
 
 var dataArray = {
   "roomcode" : room_code,
