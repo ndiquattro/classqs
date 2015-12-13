@@ -1,0 +1,30 @@
+#overviewtable{
+
+	margin-top: 20px;
+}
+
+.centertable td {
+   text-align: center;   
+}
+.centertable th {
+   text-align: center;   
+}
+
+.clickable{
+	
+}
+
+.padded {
+
+	padding: 6px 5px;
+}
+
+.clickable:hover {
+
+	box-shadow: inset 1px 1px 2px 1px rgba(0,0,0,0.35);
+	background-color: rgba(233, 233, 233, 0.5);
+	border-radius: 5px;
+	cursor: pointer;
+   
+}
+
