@@ -6,17 +6,24 @@
 .centertable td {
    text-align: center;   
 }
+
 .centertable th {
    text-align: center;   
 }
 
-.clickable{
-	
-}
+.btn{
 
+	display: block;
+margin:auto;
+}
 .padded {
 
 	padding: 6px 5px;
+}
+
+.warningmsg{
+
+	border: 1px solid transparent;
 }
 
 .clickable:hover {

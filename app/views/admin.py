@@ -1,6 +1,7 @@
 from flask import render_template, request, jsonify, json, Blueprint, url_for, redirect
-from app.models import User, Question, Options, Roomcode_Currques, asked_questions, asked_options
+from app.models import User, Question, Options, Roomcode_Currques, asked_questions, asked_options, students_registered
 from flask.ext.login import current_user
+from sqlalchemy.sql import and_
 import string, random
 # Initiate Blueprint
 admin = Blueprint('admin', __name__, url_prefix='/admin')
@@ -245,3 +246,36 @@ def delete_q_arch():
     asked_questions.delete_asked_question(data['quid'])
 
     return jsonify(message="deleted question "+data['quid'])
+
+# Get student scors for gradebook
+@admin.route('/gradebook_scores') 
+def gradebook_scores():
+    room_code = request.args.get('r')
+    current_user.id
+    students = students_registered.query.filter_by(roomcode=room_code).all()
+    questions = asked_questions.query.filter(and_(asked_questions.authorid==current_user.id, asked_questions.roomcode==room_code)).all()
+    studentdata = {}
+    questiondata = []
+    # get infor on questions
+    for q in questions:
+        questiondata.append(q.id)
+
+    #get how students answered each question
+    for s in students:   
+        studentdict ={}
+        studentdict['firstname'] = s.firstname 
+        studentdict['lastname'] = s.lastname
+        allanswers = s.student_answers
+        answers = {}
+        for a in allanswers:
+            answerinfo = {}
+            adict = {"answer": a.answer, "answered_correctly": a.answered_correctly}
+            answerinfo[a.asked_question_id] = adict
+            answers.update(answerinfo)
+
+        studentdict['answers'] = answers
+        studentdata[s.id] = studentdict
+        
+
+    return jsonify(studentdata=studentdata, questiondata=questiondata)
+

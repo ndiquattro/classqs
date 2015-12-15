@@ -4,9 +4,12 @@
 var getuserinfo_route = '{{userinfo_route}}'
 var getquestions_route ='{{getquestions_route}}'
 var add_room_currques_route ="{{url_for('admin.add_room_currques')}}"
+var gradebookscores_route = "{{url_for('admin.gradebook_scores')}}"
+var room_code = '{{room_code}}'
 </script>
 <link href="/static/admin/css/gradebook.css" rel="stylesheet">
 <script src="/static/admin/javascript/gradebook.js"></script>
+<script type="text/javascript" src="/static/admin/javascript/tablesorter/jquery.tablesorter.js"></script> 
 <div class="container">	
 <div class="row text-center">	
 <div class="col-sm-12"><h2>Gradebook</h2></div>
@@ -31,26 +34,13 @@ var add_room_currques_route ="{{url_for('admin.add_room_currques')}}"
   <table class="table centertable" id="overviewtable">
     <thead>
       <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Total Participation Points</th>
-        <th>Total Correct Answer Points</th>
+        <th class="sortable">First Name &nbsp <span class="glyphicon glyphicon-sort" style="display:none; font-size:14; font-weight: normal" aria-hidden="true"></span></th>
+        <th class="sortable">Last Name &nbsp<span class="glyphicon glyphicon-sort" style="display:none; font-size:14; font-weight: normal" aria-hidden="true"></span></th>
+        <th class="sortable">Total Participation Points &nbsp<span class="glyphicon glyphicon-sort" style="display:none; font-size:14; font-weight: normal" aria-hidden="true"></span></th>
+        <th class="sortable">Total Correct Answer Points &nbsp<span class="glyphicon glyphicon-sort" style="display:none; font-size:14; font-weight: normal" aria-hidden="true"></span></th>
       </tr>
     </thead>
-    <tbody>
-    <tr>
-    <td><div class="ifield"><div class = "clickable padded">Adam</div></div></td>
-    <td><div class="ifield"><div class = "clickable padded">Blalock</div></td>
-    <td><div class = "padded">14</div></td>
-     <td><div class = "padded">20</div></td>
-   	</tr>
- <tr>
-    <td><div class = "clickable padded">Adam</div></td>
-    <td><div class = "clickable padded">Blalock</div></td>
-    <td><div class = "padded">14</div></td>
-     <td><div class = "padded">20</div></td>
-   	</tr>
-
+    <tbody id="overviewtable">
     </tbody>
   </table>
   </div>
