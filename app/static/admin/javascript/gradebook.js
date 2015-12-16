@@ -121,13 +121,18 @@ $(".nobtn").on("click", function(){
 		// create table
 		// fill in head
 		var nameheaderstring = '<tr>'
-		      +'<th class="sortable" style="height:100px">First Name <br><span style="display:none"><i class="fa fa-sort"></i></span></th>'
-		      +'<th class="sortable" style="height:100px">Last Name <br><span style="display:none"><i class="fa fa-sort"></i></span></th>'
-		var dataheaderstring = '<tr>'
+		      +'<th class="sortable" ></th>'
+		      +'<th class="sortable" ></span></th>'
+		var dataheaderstring1 = '<tr>'
+		var dataheaderstring2= '<tr>'
 		$('#participationnamesheader').append(nameheaderstring+'</tr>')
 
 			 for (var q in data['questiondata']){
-			 	dataheaderstring += ('<th class="qinfo" style="height:100px">' 		
+
+			 	dataheaderstring1 += ('<th class="qinfo" >' 							
+					+'</th>')
+
+			 	dataheaderstring2 += ('<th class="qinfo" style="height:100px">' 		
 					+'<span class="datetime">'+data['questiondata'][q]['date']+'<br >'+data['questiondata'][q]['time']+'</span><br><a id = "p'+q+'" class="btn popoverData" href="#" data-content="'+data['questiondata'][q]['qtxt']+'" rel="popover" data-placement="bottom" data-original-title="Question:" data-trigger="hover">'+data['questiondata'][q]['qname']+'</a>'
 					+'</th>')
 
@@ -165,8 +170,8 @@ for  (var s in data['studentdata']){
 
 
 
-			    $('#participationnamesheader').append(namebodystring+'</tr>')
-			     $('#participationnamesheader').append(namebodystring+'</tr>')
+			    $('#participationnamesbody').append(namebodystring+'</tr>')
+			     $('#participationnamesbody').append(namebodystring+'</tr>')
 
 							for  (var a in  data['questiondata']){
 
@@ -182,9 +187,10 @@ for  (var s in data['studentdata']){
 
 					
 
-			    dataheaderstring += +'</tr>'
-			$('#participationheader').append(dataheaderstring)
-			
+			    dataheaderstring1 += +'</tr>'
+			    dataheaderstring2 += +'</tr>'
+			$('#participationheader').append(dataheaderstring1)
+			$('#participationheader2').append(dataheaderstring2)
 
 $(".popoverData").css('margin', '0px')
 $(".popoverData").css('padding', '0px')
@@ -193,8 +199,13 @@ $(".datetime").css('font-weight', 'normal')
 $(".overflowtable").css('overflow', 'auto')
 $(".rowoverflow").css('overflow', 'auto')
 $("#nameoverflow").css('overflow', 'hidden')
+$("#headeroverflow").css('overflow', 'hidden')
 
-
+$("#participationtable td, th").css('width', '150px')
+$("#participationtable2 td, th").css('width', '150px')
+$("#participationtable2 a").css('text-overflow', 'ellipsis')
+$("#participationtable2 a ").css('overflow', 'hidden')
+$("#participationtable2 a").css('white-space', 'nowrap')
 
   $(".sortable").mouseenter(function(){
 		        $(this).css('background-color', 'rgba(233, 233, 233, 0.5)')
@@ -219,10 +230,11 @@ $('.popoverData').on('click', function() {
 			});
 
 
-  var target = $("#nameoverflow");
+  var target1 = $("#nameoverflow");
+   var target2 = $("#headeroverflow");
   $("#partoverflow").scroll(function() {
-    target.prop("scrollTop", this.scrollTop)
-          // .prop("scrollLeft", this.scrollLeft);
+    target1.prop("scrollTop", this.scrollTop)
+          target2.prop("scrollLeft", this.scrollLeft);
   });
 
 

@@ -53,16 +53,37 @@ var resulturl = '{{resultspageurl}}'
 <div id="part_tab" class="tab-pane fade">
 <br>
 
-<div class="row">
-<div class="col-xs-3" style:"padding:0px 90px">
-  <div class="overflowtable" style="height:600px" id="nameoverflow">
+<!-- header rows -->
+<div class=" row overalltable">
+
+<div class="col-xs-3" style="margin:0px; padding:0px "> 
+<table class="table centertable stattable" >
+ <thead><tr><th class="sortable" style="height:100px">First Name <br><span style="display:none"><i class="fa fa-sort"></i>
+</span></th><th class="sortable" style="height:100px">Last Name <br><span style="display:none"><i class="fa fa-sort"></i>
+</span></th> </tr>
+ </thead>
+ </table>
+</div>
+
+<div class="col-xs-9" style="margin:0px; padding:0px ">
+<div class="overflowtable"  style="width:855px;"  id = "headeroverflow">
+ <table class="table centertable stattable" style="table-layout:fixed; " id="participationtable2">
+ <thead style="width:855px;"  id="participationheader2">
+ </thead>
+ </table>
+</div>
+</div>
+
+
+<!-- data table -->
+
+<div class="col-xs-3" style="margin:0px; padding:0px ">
+  <div class="overflowtable" style="height:500px;" id="nameoverflow">
 <div class="row">
   <div class="col-sm-12"> 
 
   <table class="table centertable stattable" id="participationtablenames" >
-    <thead id="participationnamesheader">
-    </thead>
-    <tbody id="participationnamesbody">
+    <tbody id="participationnamesbody" >
     </tbody>
   </table>
   </div>
@@ -70,22 +91,23 @@ var resulturl = '{{resultspageurl}}'
 </div>
 </div>
 
-<div class="col-xs-9">
-<div class="overflowtable" style="height:620px; " id="partoverflow">
+<div class="col-xs-9" style="margin:0px; padding:0px ">
+<div class="overflowtable" style="height:520px; " id="partoverflow">
 <div class="row">
   <div class="col-sm-12">         
-  <table class="table centertable stattable" id="participationtable">
-    <thead id="participationheader">
-    </thead>
-    <tbody id="participationbody">
+  <table class="table centertable stattable" style="table-layout:fixed;" id="participationtable">
+    <tbody id="participationbody" >
     </tbody>
   </table>
   </div>
     </div>
 </div>
 </div>
+
 </div>
 </div>
+
+
 <!-- correct answer points -->
 <div id="corr_tab" class="tab-pane fade">
   <div>Correct</div>
