@@ -6,7 +6,10 @@ var getquestions_route ='{{getquestions_route}}'
 var add_room_currques_route ="{{url_for('admin.add_room_currques')}}"
 var gradebookscores_route = "{{url_for('admin.gradebook_scores')}}"
 var room_code = '{{room_code}}'
+var resulturl = '{{resultspageurl}}'
+
 </script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 <link href="/static/admin/css/gradebook.css" rel="stylesheet">
 <script src="/static/admin/javascript/gradebook.js"></script>
 <script type="text/javascript" src="/static/admin/javascript/tablesorter/jquery.tablesorter.js"></script> 
@@ -18,7 +21,7 @@ var room_code = '{{room_code}}'
 <div class="row">
 
 <ul class="nav nav-tabs">
-  <li class="active currtab"><a data-toggle="tab" href="#overview_tab"><b>Overview</b></a></li>
+  <li class="active currtab"><a data-toggle="tab" href="#overview_tab"><b>Roster</b></a></li>
   <li class="selectab"><a data-toggle="tab" href="#part_tab"><b>Participation Points</b></a></li>
   <li class="selectab"><a data-toggle="tab" href="#corr_tab"><b>Correct Answer Points</b></a></li>
   <li class="selectab"><a data-toggle="tab" href="#exp_tab"><b>Export Scores</b></a></li>
@@ -28,31 +31,61 @@ var room_code = '{{room_code}}'
 
 <!-- overview -->
 <div id="overview_tab" class="tab-pane fade in active">
-<div class="row ">
-
+<div class="row" >
   <div class="col-sm-12">         
-  <table class="table centertable" id="overviewtable">
+  <table class="table centertable stattable" id="overviewtable">
     <thead>
       <tr>
-        <th class="sortable">First Name &nbsp <span class="glyphicon glyphicon-sort" style="display:none; font-size:14; font-weight: normal" aria-hidden="true"></span></th>
-        <th class="sortable">Last Name &nbsp<span class="glyphicon glyphicon-sort" style="display:none; font-size:14; font-weight: normal" aria-hidden="true"></span></th>
-        <th class="sortable">Total Participation Points &nbsp<span class="glyphicon glyphicon-sort" style="display:none; font-size:14; font-weight: normal" aria-hidden="true"></span></th>
-        <th class="sortable">Total Correct Answer Points &nbsp<span class="glyphicon glyphicon-sort" style="display:none; font-size:14; font-weight: normal" aria-hidden="true"></span></th>
+        <th class="sortable">First Name &nbsp <span style="display:none"><i class="fa fa-sort"></i></span></th>
+        <th class="sortable">Last Name &nbsp<span style="display:none"><i class="fa fa-sort"></i></span></th>
+        <th class="sortable">Total Participation Points &nbsp<span style="display:none"><i class="fa fa-sort"></i></span></th>
+        <th class="sortable">Total Correct Answer Points &nbsp<span style="display:none"><i class="fa fa-sort"></i></span></th>
       </tr>
     </thead>
-    <tbody id="overviewtable">
+    <tbody id="overviewbody">
     </tbody>
   </table>
   </div>
-
     </div>
-</div>
+</div> <!-- ends overview -->
 
 <!-- participation points -->
 <div id="part_tab" class="tab-pane fade">
-  <div>Partic</div>
-  </div>
+<br>
 
+<div class="row">
+<div class="col-xs-3" style:"padding:0px 90px">
+  <div class="overflowtable" style="height:600px" id="nameoverflow">
+<div class="row">
+  <div class="col-sm-12"> 
+
+  <table class="table centertable stattable" id="participationtablenames" >
+    <thead id="participationnamesheader">
+    </thead>
+    <tbody id="participationnamesbody">
+    </tbody>
+  </table>
+  </div>
+    </div>
+</div>
+</div>
+
+<div class="col-xs-9">
+<div class="overflowtable" style="height:620px; " id="partoverflow">
+<div class="row">
+  <div class="col-sm-12">         
+  <table class="table centertable stattable" id="participationtable">
+    <thead id="participationheader">
+    </thead>
+    <tbody id="participationbody">
+    </tbody>
+  </table>
+  </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
 <!-- correct answer points -->
 <div id="corr_tab" class="tab-pane fade">
   <div>Correct</div>

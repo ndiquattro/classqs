@@ -2,6 +2,7 @@
 
 //make navbar active 
 $("#rsltdrop").addClass('active')
+
 $("#overviewtable").find("th").css("width", "150px")
  $(".sortable").mouseenter(function(){
         $(this).css('background-color', 'rgba(233, 233, 233, 0.5)')
@@ -19,12 +20,12 @@ $.getJSON(gradebookscores_route, {
         r: room_code,   
 
       }, function(data) {
-      	console.log(data['studentdata'])
+      	
 
+    //fill in overview  	
       	test =[]
 		//fill the overview tab
 		for (var s in data['studentdata']){
-
 			var numans = Object.keys(data['studentdata'][s]['answers']).length 
 			var numcorr = 0
 			//get number of correct answers
@@ -34,9 +35,7 @@ $.getJSON(gradebookscores_route, {
 					}
 			}
 
-
-			
-			$("#overviewtable").append('<tr id="s'+s+'">'
+			var nameappendstring = '<tr class="s'+s+'">'
 			    +'<td><div class="ifield">'
 			    +'<input type="text"  style="text-align:center; font-size:18px; display:none" class="form-control namefield text-centered">' 
 			    +'<div class = "clickable padded textdisplay">'+data['studentdata'][s]['firstname']+'</div>'
@@ -57,10 +56,12 @@ $.getJSON(gradebookscores_route, {
 			   	+'</div>'
 			    +'</div>'
 			    +'</td>'
+	
+			$("#overviewbody").append(nameappendstring
 			    +'<td><div class = "padded">'+numans+'</div></td>'
 			     +'<td><div class = "padded">'+numcorr+'</div></td>'
-
 			   	+'</tr>')
+
 
 		}
 
@@ -107,12 +108,128 @@ $(".nobtn").on("click", function(){
 })//end change name
 	//bring in table sorter
  $("#overviewtable").tablesorter({ 
-        // sort on the first column and third column, order asc 
+        // sort on the first column  order asc 
         sortList: [[1,0]] 
     }) 
 
+ //end fill in overview 
+
+
+ //fill in Participation Points tab
+		console.log(data['questiondata'])
+		console.log(data['studentdata'])	
+		// create table
+		// fill in head
+		var nameheaderstring = '<tr>'
+		      +'<th class="sortable" style="height:100px">First Name <br><span style="display:none"><i class="fa fa-sort"></i></span></th>'
+		      +'<th class="sortable" style="height:100px">Last Name <br><span style="display:none"><i class="fa fa-sort"></i></span></th>'
+		var dataheaderstring = '<tr>'
+		$('#participationnamesheader').append(nameheaderstring+'</tr>')
+
+			 for (var q in data['questiondata']){
+			 	dataheaderstring += ('<th class="qinfo" style="height:100px">' 		
+					+'<span class="datetime">'+data['questiondata'][q]['date']+'<br >'+data['questiondata'][q]['time']+'</span><br><a id = "p'+q+'" class="btn popoverData" href="#" data-content="'+data['questiondata'][q]['qtxt']+'" rel="popover" data-placement="bottom" data-original-title="Question:" data-trigger="hover">'+data['questiondata'][q]['qname']+'</a>'
+					+'</th>')
+
+								
+
+			}
+
+
+for  (var s in data['studentdata']){
+
+				var namebodystring = null
+				var databodystring = null
+				namebodystring +='<tr style="height:50px;"><td class="headcol"><div class="ifield">'
+			    +'<input type="text"  style="text-align:center; font-size:18px; display:none" class="form-control namefield text-centered">' 
+			    +'<div class = "clickable padded textdisplay">'+data['studentdata'][s]['firstname']+'</div>'
+			    +'<div class="warningmsg padded" style="display:none"><div class="warning padded"><h4>'
+			    +'This will permanently change the name, is that ok?</h4></div>'
+			    +'<div class="row"><div class="col-sm-6"><button class="btn btn-block btn-success yesbtn padded"  type="button">Yes</button></div>'
+			    +'<div class="col-sm-6"><button class="btn btn-block btn-primary nobtn padded" type="button">No</button></div></div>'
+			   +'</div>'
+			    +'</div>'
+			    +'</td>'
+			    +'<td class="headcol"><div class="ifield">'
+			    +'<input type="text"  style="text-align:center; font-size:18px; display:none" class="form-control namefield text-centered">'
+			    +'<div class = "clickable padded textdisplay">'+data['studentdata'][s]['lastname']+'</div>'
+			    +'<div class="warningmsg padded" style="display:none"><div class="warning padded"><h4>'
+			    +'This will permanently change the name, is that ok?</h4></div>'
+			    +'<div class="row"><div class="col-sm-6"><button class="btn btn-block btn-success yesbtn padded"  type="button">Yes</button></div>'
+			    +'<div class="col-sm-6"><button class="btn btn-block btn-primary nobtn padded"  type="button">No</button></div></div>'
+			   	+'</div>'
+			    +'</div>'
+			    +'</td>'
+
+
+
+
+
+			    $('#participationnamesheader').append(namebodystring+'</tr>')
+			     $('#participationnamesheader').append(namebodystring+'</tr>')
+
+							for  (var a in  data['questiondata']){
+
+								if (data['studentdata'][s]['answers'][a] != null){
+									databodystring += '<td style="text-align:center; font-size:16px; padding:14px">1</td>' 
+									
+								} else {databodystring += '<td style="text-align:center; font-size:16px; padding:14px">0</td>' }
+							}
+					
+					$('#participationbody').append('<tr style="height:50px">'+databodystring+'</tr>')
+					$('#participationbody').append('<tr style="height:50px">'+databodystring+'</tr>')
+					}
+
+					
+
+			    dataheaderstring += +'</tr>'
+			$('#participationheader').append(dataheaderstring)
+			
+
+$(".popoverData").css('margin', '0px')
+$(".popoverData").css('padding', '0px')
+$(".datetime").css('font-size', '14px')
+$(".datetime").css('font-weight', 'normal')
+$(".overflowtable").css('overflow', 'auto')
+$(".rowoverflow").css('overflow', 'auto')
+$("#nameoverflow").css('overflow', 'hidden')
+
+
+
+  $(".sortable").mouseenter(function(){
+		        $(this).css('background-color', 'rgba(233, 233, 233, 0.5)')
+		         $(this).css("cursor", "pointer")
+		          $(this).find("span").css("display", "inline-block") 
+		    })
+		  $(".sortable").mouseleave(function(){
+		        $(this).css('background-color', 'rgb(255, 255, 255)')
+		         $(this).find("span").css("display", "none")  
+		    });
+
+
+$('.popoverData').popover();
+$('.popoverData').on('click', function() {
+  		
+  			var archid = ($(this).attr("id")).slice(1)		
+          var urlstring 
+          urlstring = String(resulturl)
+          urlstring = urlstring.substring(0, urlstring.length - 1) + archid;
+  				window.open(urlstring, "", "width=1000, height=1000");
+
+			});
+
+
+  var target = $("#nameoverflow");
+  $("#partoverflow").scroll(function() {
+    target.prop("scrollTop", this.scrollTop)
+          // .prop("scrollLeft", this.scrollLeft);
+  });
+
 
 });//end get gradebook data
+
+
+
 
 
 })

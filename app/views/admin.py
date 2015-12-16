@@ -151,7 +151,8 @@ def getresults():
  
     room_code = request.args.get('r')
     archid = request.args.get('aid')
-
+    print room_code
+    print archid
     # if only a roomcode is supplied, just get the last question, else get the archived question
     if str(archid) == "default":
         
@@ -236,8 +237,9 @@ def linkgradebook():
 # link to gradebook page
 @admin.route('/gradebook/<room_code>')
 def gradebook(room_code):
-
-    return render_template('admin/gradebook.html', room_code =  room_code)
+    resultspageurl = url_for('admin.resultspage', room_code=room_code, qid="x")
+ 
+    return render_template('admin/gradebook.html', room_code =  room_code, resultspageurl=resultspageurl)
 
 # delete question from archive
 @admin.route('/delete_q_arch', methods=['POST'])
@@ -255,10 +257,15 @@ def gradebook_scores():
     students = students_registered.query.filter_by(roomcode=room_code).all()
     questions = asked_questions.query.filter(and_(asked_questions.authorid==current_user.id, asked_questions.roomcode==room_code)).all()
     studentdata = {}
-    questiondata = []
+    questiondata = {}
     # get infor on questions
     for q in questions:
-        questiondata.append(q.id)
+        qdict = {}
+        qdict['qname'] = q.qname
+        qdict['date'] = q.dateasked
+        qdict['time'] = q.timeasked
+        qdict['qtxt'] = q.quest
+        questiondata[q.id] =  qdict
 
     #get how students answered each question
     for s in students:   
@@ -275,7 +282,7 @@ def gradebook_scores():
 
         studentdict['answers'] = answers
         studentdata[s.id] = studentdict
-        
 
+    
     return jsonify(studentdata=studentdata, questiondata=questiondata)
 
