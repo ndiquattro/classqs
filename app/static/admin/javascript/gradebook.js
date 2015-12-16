@@ -26,6 +26,7 @@ $.getJSON(gradebookscores_route, {
       	test =[]
 		//fill the overview tab
 		for (var s in data['studentdata']){
+
 			var numans = Object.keys(data['studentdata'][s]['answers']).length 
 			var numcorr = 0
 			//get number of correct answers
@@ -121,8 +122,8 @@ $(".nobtn").on("click", function(){
 		// create table
 		// fill in head
 		var nameheaderstring = '<tr>'
-		      +'<th class="sortable" ></th>'
-		      +'<th class="sortable" ></span></th>'
+		      +'<th ></th>'
+		      +'<th  ></th>'
 		var dataheaderstring1 = '<tr>'
 		var dataheaderstring2= '<tr>'
 		$('#participationnamesheader').append(nameheaderstring+'</tr>')
@@ -133,42 +134,22 @@ $(".nobtn").on("click", function(){
 					+'</th>')
 
 			 	dataheaderstring2 += ('<th class="qinfo" style="height:100px">' 		
-					+'<span class="datetime">'+data['questiondata'][q]['date']+'<br >'+data['questiondata'][q]['time']+'</span><br><a id = "p'+q+'" class="btn popoverData" href="#" data-content="'+data['questiondata'][q]['qtxt']+'" rel="popover" data-placement="bottom" data-original-title="Question:" data-trigger="hover">'+data['questiondata'][q]['qname']+'</a>'
-					+'</th>')
-
-								
+					+'<span class="datetime">'+data['questiondata'][q]['date']+'<br >'+data['questiondata'][q]['time']+'</span><br><a id = "p'+q+'" class="btn popoverData" href="#" data-content="'+data['questiondata'][q]['qtxt']+'" rel="popover" data-html="true" data-placement="bottom" data-original-title="Title: <b>'+data['questiondata'][q]['qname']+'</b>" data-trigger="hover">'+data['questiondata'][q]['qname']+'</a>'
+					+'</th>')							
 
 			}
 
 
 for  (var s in data['studentdata']){
-
+				
 				var namebodystring = null
 				var databodystring = null
-				namebodystring +='<tr style="height:50px;"><td class="headcol"><div class="ifield">'
-			    +'<input type="text"  style="text-align:center; font-size:18px; display:none" class="form-control namefield text-centered">' 
-			    +'<div class = "clickable padded textdisplay">'+data['studentdata'][s]['firstname']+'</div>'
-			    +'<div class="warningmsg padded" style="display:none"><div class="warning padded"><h4>'
-			    +'This will permanently change the name, is that ok?</h4></div>'
-			    +'<div class="row"><div class="col-sm-6"><button class="btn btn-block btn-success yesbtn padded"  type="button">Yes</button></div>'
-			    +'<div class="col-sm-6"><button class="btn btn-block btn-primary nobtn padded" type="button">No</button></div></div>'
-			   +'</div>'
-			    +'</div>'
+				namebodystring +='<tr style="height:50px;"><td>' 
+			    +'<div class = " padded ">'+data['studentdata'][s]['firstname']+'</div>' 
 			    +'</td>'
-			    +'<td class="headcol"><div class="ifield">'
-			    +'<input type="text"  style="text-align:center; font-size:18px; display:none" class="form-control namefield text-centered">'
-			    +'<div class = "clickable padded textdisplay">'+data['studentdata'][s]['lastname']+'</div>'
-			    +'<div class="warningmsg padded" style="display:none"><div class="warning padded"><h4>'
-			    +'This will permanently change the name, is that ok?</h4></div>'
-			    +'<div class="row"><div class="col-sm-6"><button class="btn btn-block btn-success yesbtn padded"  type="button">Yes</button></div>'
-			    +'<div class="col-sm-6"><button class="btn btn-block btn-primary nobtn padded"  type="button">No</button></div></div>'
-			   	+'</div>'
-			    +'</div>'
+			    +'<td class="headcol">'
+			    +'<div class = "padded ">'+data['studentdata'][s]['lastname']+'</div>'
 			    +'</td>'
-
-
-
-
 
 			    $('#participationnamesbody').append(namebodystring+'</tr>')
 			     $('#participationnamesbody').append(namebodystring+'</tr>')

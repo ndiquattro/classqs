@@ -48,3 +48,14 @@ border-radius: 5px;
 padding: 5px
 }
 
+.container-fixed {
+                   margin: 0 auto;
+                  max-width: 1150px;
+                  min-width: 1150px;
+                  width: 1150px;
+                }
+
+.pointinputheader {
+	font-size: 18px;
+	font-weight: bold;
+}

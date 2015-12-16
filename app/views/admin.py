@@ -254,10 +254,11 @@ def delete_q_arch():
 def gradebook_scores():
     room_code = request.args.get('r')
     current_user.id
-    students = students_registered.query.filter_by(roomcode=room_code).all()
+    students = students_registered.query.filter_by(roomcode=room_code).order_by(students_registered.lastname).all()
     questions = asked_questions.query.filter(and_(asked_questions.authorid==current_user.id, asked_questions.roomcode==room_code)).all()
-    studentdata = {}
+    studentdata = []
     questiondata = {}
+  
     # get infor on questions
     for q in questions:
         qdict = {}
@@ -270,6 +271,7 @@ def gradebook_scores():
     #get how students answered each question
     for s in students:   
         studentdict ={}
+        studentdict['sid'] = s.id
         studentdict['firstname'] = s.firstname 
         studentdict['lastname'] = s.lastname
         allanswers = s.student_answers
@@ -281,7 +283,9 @@ def gradebook_scores():
             answers.update(answerinfo)
 
         studentdict['answers'] = answers
-        studentdata[s.id] = studentdict
+        studentdata.append(studentdict)
+
+
 
     
     return jsonify(studentdata=studentdata, questiondata=questiondata)
