@@ -1,5 +1,19 @@
  $(document).ready(function(){
 
+
+$('#partinput').on('focus', function(){
+            // Get the value when input gains focus
+            $(this).data('oldVal', $(this).val()  );
+
+       });
+
+$('#partinput').on('input', function() { 
+	var oldval =  $(this).data('oldVal')
+   var newval = $(this).val() // get the current value of the input field.
+   updateparticipation(oldval, newval)
+ 	$(this).data('oldVal', newval  );
+});
+
 //make navbar active 
 $("#rsltdrop").addClass('active')
 
@@ -14,6 +28,7 @@ $("#overviewtable").find("th").css("width", "150px")
         $(this).css('background-color', 'rgb(255, 255, 255)')
          $(this).find("span").css("display", "none")  
     });
+
 
 //get gradebook data
 $.getJSON(gradebookscores_route, {
@@ -59,8 +74,8 @@ $.getJSON(gradebookscores_route, {
 			    +'</td>'
 	
 			$("#overviewbody").append(nameappendstring
-			    +'<td><div class = "padded">'+numans+'</div></td>'
-			     +'<td><div class = "padded">'+numcorr+'</div></td>'
+			    +'<td><div class = "padded stotalpart">'+numans+'</div></td>'
+			     +'<td><div class = "padded stotalcorr">'+numcorr+'</div></td>'
 			   	+'</tr>')
 
 
@@ -80,7 +95,7 @@ $(".clickable").on("click", function(){
 	$(this).parent().find(".warningmsg").slideDown(400);
 	w = $(this).closest('td').find(".ifield").width()
 	$(this).closest('td').css('width', "150px" );
-	console.log($(this).closest('tr').attr("id"))
+	
 })	
 
 $(".yesbtn").on("click", function(){
@@ -117,8 +132,7 @@ $(".nobtn").on("click", function(){
 
 
  //fill in Participation Points tab
-		console.log(data['questiondata'])
-		console.log(data['studentdata'])	
+	
 		// create table
 		// fill in head
 		var nameheaderstring = '<tr>'
@@ -157,10 +171,12 @@ for  (var s in data['studentdata']){
 							for  (var a in  data['questiondata']){
 
 								if (data['studentdata'][s]['answers'][a] != null){
-									databodystring += '<td style="text-align:center; font-size:16px; padding:14px">1</td>' 
+									databodystring += '<td class="partscore" style="text-align:center; font-size:16px; padding:14px">1</td>' 
 									
-								} else {databodystring += '<td style="text-align:center; font-size:16px; padding:14px">0</td>' }
+								} else {databodystring += '<td class="partscore" style="text-align:center; font-size:16px; padding:14px">0</td>' }
 							}
+
+
 					
 					$('#participationbody').append('<tr style="height:50px">'+databodystring+'</tr>')
 					$('#participationbody').append('<tr style="height:50px">'+databodystring+'</tr>')
@@ -218,12 +234,82 @@ $('.popoverData').on('click', function() {
           target2.prop("scrollLeft", this.scrollLeft);
   });
 
+getpartsettings();
 
 });//end get gradebook data
 
 
+//get room settings
+function getpartsettings() {
+$.getJSON(getroomopts_route, {
+        r: room_code
+
+      }, function(data) {
+      	//update participanttab
+		var partmult = data['roomdata']['pointpart']
+		$("#partinput").val(partmult)
+		//store the value of the participation and corr ans input
+		$('#partinput').data('oldVal',  partmult );
+
+		$('.partscore').each(function(){
+				
+			var oldscore = parseInt($(this).text())
+			var updatedscore = oldscore/oldscore * partmult
+			if (isNaN(updatedscore)){updatedscore=0}
+			$(this).text(updatedscore)
 
 
+      	})
+
+      		//update summary tab
+      	$('.stotalpart').each(function(){	
+      	
+			var oldscore = parseInt($(this).text())
+			var updatedscore = oldscore * partmult
+	
+			if (isNaN(updatedscore)){updatedscore=0}
+			$(this).text(updatedscore)
+
+	})
+
+		
+
+      	});
+}
+
+//update participation points
+function updateparticipation(oldmult, newmult){
+
+	if (newmult>0){
+
+$.getJSON(setroomopts_route, {
+        r: room_code,
+        ppart: newmult
+
+      }, function(data) {
+	var partmult = data['pdata']
+		//update participation tab
+		$('.partscore').each(function(){
+
+			var updatedscore = parseInt($(this).text())/oldmult * partmult
+			if (isNaN(updatedscore)){updatedscore=0}
+			$(this).text(updatedscore)
+		
+      	})
+      	//update summary tab
+      	$('.stotalpart').each(function(){	
+    
+			var updatedscore = parseInt($(this).text())/oldmult * partmult
+			if (isNaN(updatedscore)){updatedscore=0}
+			$(this).text(updatedscore)
+      	})
+
+		});
+	}
+
+
+
+}//end update score
 
 })
 

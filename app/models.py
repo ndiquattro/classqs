@@ -204,5 +204,39 @@ class asked_options(db.Model):
     qid = db.Column(db.Integer, db.ForeignKey('asked_questions.id'))
     opt = db.Column(db.String(140))
 
+
+#various settings for class
+class class_settings(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    authorid = db.Column(db.Integer, db.ForeignKey('user.id'))
+    roomcode = db.Column(db.String(140))
+    pointsforparticipation = db.Column(db.Integer, default=1) 
+    pointsforcorrectanswer = db.Column(db.Integer, default=1)
+
+    @staticmethod
+    def add_setting(authid, roomcode, **kwpr):
+
+        roominfo = class_settings.query.filter_by(roomcode=roomcode).first()
+
+        if roominfo is None:     
+            q = class_settings(authorid=authid,
+                                  roomcode=roomcode)
+            db.session.add(q)
+            db.session.commit()
+
+
+        if 'pointpart' in kwpr:
+            roominfo.pointsforparticipation = kwpr['pointpart']
+            db.session.commit()
+            
+            return roominfo.pointsforparticipation
+
+        if 'pointcorr' in kwpr:
+            roominfo.pointsforcorrectanswer = kwpr['pointcorr']
+            db.session.commit()
+            return roominfo.pointsforcorrectanswer
+
+
+      
     
 

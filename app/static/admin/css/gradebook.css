@@ -55,7 +55,18 @@ padding: 5px
                   width: 1150px;
                 }
 
-.pointinputheader {
+
+
+.pointlabel{
 	font-size: 18px;
-	font-weight: bold;
+
+
+}
+
+.pointinput{
+	font-size: 18px;
+	max-width:70px;
+	height: 36px;
+	display: inline-block;
+	
 }

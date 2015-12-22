@@ -1,5 +1,5 @@
 from flask import render_template, request, jsonify, json, Blueprint, url_for, redirect
-from app.models import User, Question, Options, Roomcode_Currques, asked_questions, asked_options, students_registered
+from app.models import User, Question, Options, Roomcode_Currques, asked_questions, asked_options, students_registered, class_settings
 from flask.ext.login import current_user
 from sqlalchemy.sql import and_
 import string, random
@@ -285,8 +285,45 @@ def gradebook_scores():
         studentdict['answers'] = answers
         studentdata.append(studentdict)
 
-
-
-    
     return jsonify(studentdata=studentdata, questiondata=questiondata)
+
+
+@admin.route('/get_roomoptions') 
+def get_roomoptions():
+    room_code = request.args.get('r')
+    authorid = current_user.id
+
+    roominfo = class_settings.query.filter_by(roomcode=room_code).first()
+
+    #check if option exist, if not create defult
+    if roominfo is None:
+        class_settings.add_setting(authorid, room_code) 
+        roominfo = class_settings.query.filter_by(roomcode=room_code).first()
+
+    roomdata = dict(pointpart = roominfo.pointsforparticipation, pointcorr = roominfo.pointsforcorrectanswer)
+
+
+
+    return jsonify(roomdata=roomdata)
+
+
+@admin.route('/set_roomoptions') 
+def set_roomoptions():
+    room_code = request.args.get('r')
+    authorid = current_user.id
+    if request.args.get('ppart') is not None:
+        result = class_settings.add_setting(authorid, room_code, pointpart = int(request.args.get('ppart')))
+
+    if request.args.get('pcorr') is not None:
+        result = class_settings.add_setting(authorid, room_code, pointcorr= int(request.args.get('pcorr')))
+
+    return jsonify(pdata=result)
+
+
+
+
+
+
+
+
 

@@ -7,6 +7,8 @@ var add_room_currques_route ="{{url_for('admin.add_room_currques')}}"
 var gradebookscores_route = "{{url_for('admin.gradebook_scores')}}"
 var room_code = '{{room_code}}'
 var resulturl = '{{resultspageurl}}'
+var getroomopts_route = "{{url_for('admin.get_roomoptions')}}"
+var setroomopts_route = "{{url_for('admin.set_roomoptions')}}"
 
 </script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -53,10 +55,17 @@ var resulturl = '{{resultspageurl}}'
 <div id="part_tab" class="tab-pane fade">
 <div class="container-fixed">
 <br>
-<div class="row">
-<div class="col-sm-12">
-<div class="pointinputheader">Points for Participation:<div>
-</div>
+<div class="form-group">
+   
+
+        <div class="form-inline">
+
+            <div class="form-group">
+
+               <label for="partinput" class="pointlabel">Points for Participation:&nbsp</label>
+              <input type="number" class="form-control pointinput input-md" min = "1" id="partinput"> 
+        </div>
+    </div>
 </div>
 <hr>
 <!-- header rows -->
