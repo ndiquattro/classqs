@@ -317,7 +317,7 @@ def set_roomoptions():
     if request.args.get('pcorr') is not None:
         result = class_settings.add_setting(authorid, room_code, pointcorr= int(request.args.get('pcorr')))
 
-    return jsonify(pdata=result)
+    return jsonify(data=result)
 
 
 

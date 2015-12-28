@@ -1,18 +1,20 @@
  $(document).ready(function(){
 
 
-$('#partinput').on('focus', function(){
-            // Get the value when input gains focus
-            $(this).data('oldVal', $(this).val()  );
-
-       });
-
 $('#partinput').on('input', function() { 
 	var oldval =  $(this).data('oldVal')
    var newval = $(this).val() // get the current value of the input field.
    updateparticipation(oldval, newval)
  	$(this).data('oldVal', newval  );
 });
+
+$('#corrinput').on('input', function() { 
+	var oldval =  $(this).data('oldVal')
+   var newval = $(this).val() // get the current value of the input field.
+   updatecorrans(oldval, newval)
+ 	$(this).data('oldVal', newval );
+});
+
 
 //make navbar active 
 $("#rsltdrop").addClass('active')
@@ -135,19 +137,15 @@ $(".nobtn").on("click", function(){
 	
 		// create table
 		// fill in head
-		var nameheaderstring = '<tr>'
-		      +'<th ></th>'
-		      +'<th  ></th>'
-		var dataheaderstring1 = '<tr>'
-		var dataheaderstring2= '<tr>'
-		$('#participationnamesheader').append(nameheaderstring+'</tr>')
+
+	
+		var dataheaderstring= '<tr>'
+
 
 			 for (var q in data['questiondata']){
 
-			 	dataheaderstring1 += ('<th class="qinfo" >' 							
-					+'</th>')
 
-			 	dataheaderstring2 += ('<th class="qinfo" style="height:100px">' 		
+			 	dataheaderstring += ('<th class="qinfo" style="height:100px">' 		
 					+'<span class="datetime">'+data['questiondata'][q]['date']+'<br >'+data['questiondata'][q]['time']+'</span><br><a id = "p'+q+'" class="btn popoverData" href="#" data-content="'+data['questiondata'][q]['qtxt']+'" rel="popover" data-html="true" data-placement="bottom" data-original-title="Title: <b>'+data['questiondata'][q]['qname']+'</b>" data-trigger="hover">'+data['questiondata'][q]['qname']+'</a>'
 					+'</th>')							
 
@@ -166,7 +164,7 @@ for  (var s in data['studentdata']){
 			    +'</td>'
 
 			    $('#participationnamesbody').append(namebodystring+'</tr>')
-			     $('#participationnamesbody').append(namebodystring+'</tr>')
+			 
 
 							for  (var a in  data['questiondata']){
 
@@ -175,19 +173,96 @@ for  (var s in data['studentdata']){
 									
 								} else {databodystring += '<td class="partscore" style="text-align:center; font-size:16px; padding:14px">0</td>' }
 							}
+		
+					$('#participationbody').append('<tr style="height:50px">'+databodystring+'</tr>')
+				
+					}
+
+			  
+			    dataheaderstring += +'</tr>'
+			
+			$('#participationheader').append(dataheaderstring)
+
+  var target1 = $("#partnameoverflow");
+   var target2 = $("#partheaderoverflow");
+  $("#partoverflow").scroll(function() {
+
+    target1.prop("scrollTop", this.scrollTop)
+          target2.prop("scrollLeft", this.scrollLeft);
+  });
+
+//end update participant table
+
+
+
+//Update correct Answer table
+		// create table
+		// fill in head
+
+
+		var corrdataheaderstring= '<tr>'
+
+
+			 for (var q in data['questiondata']){
+
+			 	corrdataheaderstring += ('<th class="qinfo" style="height:100px">' 		
+					+'<span class="datetime">'+data['questiondata'][q]['date']+'<br >'+data['questiondata'][q]['time']+'</span><br><a id = "a'+q+'" class="btn popoverData" href="#" data-content="'+data['questiondata'][q]['qtxt']+'" rel="popover" data-html="true" data-placement="bottom" data-original-title="Title: <b>'+data['questiondata'][q]['qname']+'</b>" data-trigger="hover">'+data['questiondata'][q]['qname']+'</a>'
+					+'</th>')							
+
+			}
+
+console.log(data['studentdata'])
+for  (var s in data['studentdata']){
+				
+				var namebodystring = null
+				var databodystring = null
+				namebodystring +='<tr style="height:50px;"><td>' 
+			    +'<div class = " padded ">'+data['studentdata'][s]['firstname']+'</div>' 
+			    +'</td>'
+			    +'<td class="headcol">'
+			    +'<div class = "padded ">'+data['studentdata'][s]['lastname']+'</div>'
+			    +'</td>'
+
+			    $('#corransnamesbody').append(namebodystring+'</tr>')
+		
+			     var currans
+							for  (var a in  data['questiondata']){
+
+								currans = data['studentdata'][s]['answers'][a]
+
+								if (currans != null){
+									if(currans['answered_correctly'] == 1){
+									databodystring += '<td class="corrscore" style="text-align:center; font-size:16px; padding:14px">1</td>' 
+									} else {databodystring += '<td class="corrscore" style="text-align:center; font-size:16px; padding:14px">0</td>' }
+								} 
+								else {databodystring += '<td class="corrscore" style="text-align:center; font-size:16px; padding:14px">0</td>' }
+							}
 
 
 					
-					$('#participationbody').append('<tr style="height:50px">'+databodystring+'</tr>')
-					$('#participationbody').append('<tr style="height:50px">'+databodystring+'</tr>')
+					$('#corransnbody').append('<tr style="height:50px">'+databodystring+'</tr>')
+					
 					}
 
 					
 
-			    dataheaderstring1 += +'</tr>'
-			    dataheaderstring2 += +'</tr>'
-			$('#participationheader').append(dataheaderstring1)
-			$('#participationheader2').append(dataheaderstring2)
+			    corrdataheaderstring += +'</tr>'
+			$('#corransheader').append(corrdataheaderstring)
+
+
+
+
+
+  var corrtarget1 = $("#corrnameoverflow");
+   var corrtarget2 = $("#corrheaderoverflow");
+  $("#corransoverflow").scroll(function() {
+    corrtarget1.prop("scrollTop", this.scrollTop)
+          corrtarget2.prop("scrollLeft", this.scrollLeft);
+  });
+
+
+
+//End Update correct Answer table
 
 $(".popoverData").css('margin', '0px')
 $(".popoverData").css('padding', '0px')
@@ -195,16 +270,15 @@ $(".datetime").css('font-size', '14px')
 $(".datetime").css('font-weight', 'normal')
 $(".overflowtable").css('overflow', 'auto')
 $(".rowoverflow").css('overflow', 'auto')
-$("#nameoverflow").css('overflow', 'hidden')
-$("#headeroverflow").css('overflow', 'hidden')
+$(".nameoverflow").css('overflow', 'hidden')
+$(".headeroverflow").css('overflow', 'hidden')
 
-$("#participationtable td, th").css('width', '150px')
-$("#participationtable2 td, th").css('width', '150px')
-$("#participationtable2 a").css('text-overflow', 'ellipsis')
-$("#participationtable2 a ").css('overflow', 'hidden')
-$("#participationtable2 a").css('white-space', 'nowrap')
-
-  $(".sortable").mouseenter(function(){
+$(".gradetable td, th").css('width', '150px')
+$(".gradetable2 td, th").css('width', '150px')
+$(".gradetable2 a").css('text-overflow', 'ellipsis')
+$(".gradetable2 a ").css('overflow', 'hidden')
+$(".gradetable2 a").css('white-space', 'nowrap')
+$(".sortable").mouseenter(function(){
 		        $(this).css('background-color', 'rgba(233, 233, 233, 0.5)')
 		         $(this).css("cursor", "pointer")
 		          $(this).find("span").css("display", "inline-block") 
@@ -213,11 +287,8 @@ $("#participationtable2 a").css('white-space', 'nowrap')
 		        $(this).css('background-color', 'rgb(255, 255, 255)')
 		         $(this).find("span").css("display", "none")  
 		    });
-
-
 $('.popoverData').popover();
-$('.popoverData').on('click', function() {
-  		
+$('.popoverData').on('click', function() {		
   			var archid = ($(this).attr("id")).slice(1)		
           var urlstring 
           urlstring = String(resulturl)
@@ -226,42 +297,53 @@ $('.popoverData').on('click', function() {
 
 			});
 
-
-  var target1 = $("#nameoverflow");
-   var target2 = $("#headeroverflow");
-  $("#partoverflow").scroll(function() {
-    target1.prop("scrollTop", this.scrollTop)
-          target2.prop("scrollLeft", this.scrollLeft);
-  });
-
-getpartsettings();
+getroomsettings();
 
 });//end get gradebook data
 
 
-//get room settings
-function getpartsettings() {
+
+
+
+
+
+
+
+
+
+//get participation settings
+function getroomsettings() {
 $.getJSON(getroomopts_route, {
         r: room_code
 
       }, function(data) {
-      	//update participanttab
+
 		var partmult = data['roomdata']['pointpart']
+		var corrmult = data['roomdata']['pointcorr']
 		$("#partinput").val(partmult)
+		$("#corrinput").val(corrmult)
+
 		//store the value of the participation and corr ans input
 		$('#partinput').data('oldVal',  partmult );
+		$('#corrinput').data('oldVal',  corrmult );
 
-		$('.partscore').each(function(){
-				
+		//update score tab
+		$('.partscore').each(function(){		
 			var oldscore = parseInt($(this).text())
 			var updatedscore = oldscore/oldscore * partmult
 			if (isNaN(updatedscore)){updatedscore=0}
 			$(this).text(updatedscore)
-
-
       	})
 
-      		//update summary tab
+		$('.corrscore').each(function(){		
+			var oldscore = parseInt($(this).text())
+			var updatedscore = oldscore/oldscore * corrmult
+			if (isNaN(updatedscore)){updatedscore=0}
+			$(this).text(updatedscore)
+      	})
+
+
+      	//update summary tab
       	$('.stotalpart').each(function(){	
       	
 			var oldscore = parseInt($(this).text())
@@ -270,9 +352,18 @@ $.getJSON(getroomopts_route, {
 			if (isNaN(updatedscore)){updatedscore=0}
 			$(this).text(updatedscore)
 
-	})
+		})
 
-		
+		$('.stotalcorr').each(function(){	
+      	
+			var oldscore = parseInt($(this).text())
+			var updatedscore = oldscore * corrmult
+	
+			if (isNaN(updatedscore)){updatedscore=0}
+			$(this).text(updatedscore)
+
+		})
+
 
       	});
 }
@@ -287,7 +378,7 @@ $.getJSON(setroomopts_route, {
         ppart: newmult
 
       }, function(data) {
-	var partmult = data['pdata']
+	var partmult = data['data']
 		//update participation tab
 		$('.partscore').each(function(){
 
@@ -307,9 +398,41 @@ $.getJSON(setroomopts_route, {
 		});
 	}
 
+}//end update participation
+
+//update correct ans points
+function updatecorrans(oldmult, newmult){
+
+	if (newmult>0){
+
+$.getJSON(setroomopts_route, {
+        r: room_code,
+        pcorr: newmult
+
+      }, function(data) {
+	var corrmult = data['data']
+		//update participation tab
+		$('.corrscore').each(function(){
+
+			var updatedscore = parseInt($(this).text())/oldmult * corrmult 
+			if (isNaN(updatedscore)){updatedscore=0}
+			$(this).text(updatedscore)
+		
+      	})
+      	//update summary tab
+      	$('.stotalcorr').each(function(){	
+    
+			var updatedscore = parseInt($(this).text())/oldmult * corrmult 
+			if (isNaN(updatedscore)){updatedscore=0}
+			$(this).text(updatedscore)
+      	})
+
+		});
+	}
+
+}//end correct ans points
 
 
-}//end update score
 
 })
 

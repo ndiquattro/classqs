@@ -23,7 +23,7 @@ var setroomopts_route = "{{url_for('admin.set_roomoptions')}}"
 <div class="row">
 
 <ul class="nav nav-tabs">
-  <li class="active currtab"><a data-toggle="tab" href="#overview_tab"><b>Roster</b></a></li>
+  <li class="active currtab"><a data-toggle="tab" href="#overview_tab"><b>Overview</b></a></li>
   <li class="selectab"><a data-toggle="tab" href="#part_tab"><b>Participation Points</b></a></li>
   <li class="selectab"><a data-toggle="tab" href="#corr_tab"><b>Correct Answer Points</b></a></li>
   <li class="selectab"><a data-toggle="tab" href="#exp_tab"><b>Export Scores</b></a></li>
@@ -80,9 +80,9 @@ var setroomopts_route = "{{url_for('admin.set_roomoptions')}}"
 </div>
 
 <div class="col-xs-9" style="margin:0px; padding:0px ">
-<div class="overflowtable"  style="width:855px;"  id = "headeroverflow">
- <table class="table centertable stattable" style="table-layout:fixed; " id="participationtable2">
- <thead style="width:855px;"  id="participationheader2">
+<div class="overflowtable headeroverflow"  style="width:855px;"  id = "partheaderoverflow">
+ <table class="table centertable stattable gradetable2" style="table-layout:fixed; " id="participationtable2">
+ <thead style="width:855px;"  id="participationheader">
  </thead>
  </table>
 </div>
@@ -92,7 +92,7 @@ var setroomopts_route = "{{url_for('admin.set_roomoptions')}}"
 <!-- data table -->
 
 <div class="col-xs-3" style="margin:0px; padding:0px ">
-  <div class="overflowtable" style="height:480px;" id="nameoverflow">
+  <div class="overflowtable nameoverflow" style="height:480px;" id="partnameoverflow">
 <div class="row">
   <div class="col-sm-12"> 
 
@@ -109,7 +109,7 @@ var setroomopts_route = "{{url_for('admin.set_roomoptions')}}"
 <div class="overflowtable" style="height:500px; " id="partoverflow">
 <div class="row">
   <div class="col-sm-12">         
-  <table class="table centertable stattable" style="table-layout:fixed;" id="participationtable">
+  <table class="table centertable stattable gradetable" style="table-layout:fixed;" id="participationtable">
     <tbody id="participationbody" >
     </tbody>
   </table>
@@ -120,21 +120,95 @@ var setroomopts_route = "{{url_for('admin.set_roomoptions')}}"
 
 </div>
 </div>
-
+<br><br><br><br><br><br><!-- ends participation points -->
 </div>
-</div> 
-<br><br><br><br><br><br>
-</div> <!-- ends participation points -->
 
-<!-- correct answer points -->
+
+
+
+
+
+
+<!-- correct answer points tab-->
 <div id="corr_tab" class="tab-pane fade">
-  <div>Correct</div>
-  </div>
+<div class="container-fixed">
+<br>
+<div class="form-group">
+   
 
+        <div class="form-inline">
 
-</div><!-- 	Ends tabs -->
-</div>	
+            <div class="form-group">
+
+               <label for="corrinput" class="pointlabel">Points for Correct Answer:&nbsp</label>
+              <input type="number" class="form-control pointinput input-md" min = "1" id="corrinput"> 
+        </div>
+    </div>
 </div>
+<hr>
+<!-- header rows -->
+<div class=" row overalltable">
+
+<div class="col-xs-3" style="margin:0px; padding:0px "> 
+<table class="table centertable stattable" >
+ <thead><tr><th  style="height:100px">First Name <br></th>
+<th  style="height:100px">Last Name <br></th> </tr>
+ </thead>
+ </table>
+</div>
+
+<div class="col-xs-9" style="margin:0px; padding:0px ">
+<div class="overflowtable headeroverflow"  style="width:855px;"  id = "corrheaderoverflow">
+ <table class="table centertable stattable gradetable2" style="table-layout:fixed; " id="corranstable2">
+ <thead style="width:855px;"  id="corransheader">
+ </thead>
+ </table>
+</div>
+</div>
+
+
+<!-- data table -->
+
+<div class="col-xs-3" style="margin:0px; padding:0px ">
+  <div class="overflowtable nameoverflow" style="height:480px;" id="corrnameoverflow">
+<div class="row">
+  <div class="col-sm-12"> 
+
+  <table class="table centertable stattable" id="corranstablenames" >
+    <tbody id="corransnamesbody" >
+    </tbody>
+  </table>
+  </div>
+    </div>
+</div>
+</div>
+
+<div class="col-xs-9" style="margin:0px; padding:0px ">
+<div class="overflowtable" style="height:500px; " id="corransoverflow">
+<div class="row">
+  <div class="col-sm-12">         
+  <table class="table centertable stattable gradetable" style="table-layout:fixed;" id="corranstable">
+    <tbody id="corransnbody" >
+    </tbody>
+  </table>
+  </div>
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+<br><br><br><br><br><br>
+</div> <!-- End correct answer points  -->
+
+</div><!--   Ends tabs -->
+
+
+</div> 
+
+ 
+
+</div>  <!-- ends overall container -->
 
 
 
