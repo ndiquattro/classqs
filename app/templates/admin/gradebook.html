@@ -9,16 +9,20 @@ var room_code = '{{room_code}}'
 var resulturl = '{{resultspageurl}}'
 var getroomopts_route = "{{url_for('admin.get_roomoptions')}}"
 var setroomopts_route = "{{url_for('admin.set_roomoptions')}}"
-
+var save_grades_route = "{{url_for('admin.save_grades')}}"
 </script>
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 <link href="/static/admin/css/gradebook.css" rel="stylesheet">
 <script src="/static/admin/javascript/gradebook.js"></script>
+<script type="text/javascript" src="/static/admin/javascript/modernizr-custom.js"></script> 
+<script type="text/javascript" src="/static/admin/javascript/FileSaver.js"></script> 
 <script type="text/javascript" src="/static/admin/javascript/tablesorter/jquery.tablesorter.js"></script> 
 <div class="container">	
 <div class="row text-center">	
 <div class="col-sm-12"><h3><b>Gradebook</b></h3></div>
 </div>
+
 <hr>
 <div class="row">
 
@@ -124,11 +128,6 @@ var setroomopts_route = "{{url_for('admin.set_roomoptions')}}"
 </div>
 
 
-
-
-
-
-
 <!-- correct answer points tab-->
 <div id="corr_tab" class="tab-pane fade">
 <div class="container-fixed">
@@ -200,6 +199,75 @@ var setroomopts_route = "{{url_for('admin.set_roomoptions')}}"
 </div>
 <br><br><br><br><br><br>
 </div> <!-- End correct answer points  -->
+
+
+<!-- export grade tab -->
+<div id="exp_tab" class="tab-pane fade">
+<div class="container">
+<br>
+<div class="row exportrow">
+<div class = "marginstyling">
+<div><h4>Select Point Categories to Export <span class="subtext">(can select multiple, each will be a seperate column)</span></h4></div>
+<form id="typecheck" class="sendscore">
+<label class="checkbox-inline">
+  <input type="checkbox" id="inlineCheckbox1" value="option1">Participation
+</label>
+<label class="checkbox-inline">
+  <input type="checkbox" id="inlineCheckbox2" value="option2">Correct Answer
+</label>
+<label class="checkbox-inline">
+  <input type="checkbox" id="inlineCheckbox3" value="option3">Sum of Participation and Correct Answer
+</label>
+</form>
+
+<div id="pointopt" class="nojump">
+<hr>
+<h4>Select Dates to Export</h4>
+<select class="form-control sendscore" id="dateselect">
+  <option value="0" selected="selected">(Click to select dates)</option>
+  <option value="1">Total points (a single column with sum of points for all dates)</option>
+  <option value="2">Total of date range (a single column with sum of points for a date range)</option>
+  <option value="3">Export individual dates (select individual dates to export, each will be a seperate column)</option>
+</select>
+</div>
+
+<div id="exporttypediv" class="nojump sendscore">
+<hr>
+<div><h4>Select File Type</h4></div>
+<form id="filetype" action="" class="nojump">
+<label class="radio-inline nojump" >
+  <input class="nojump" type="radio" name="filetype" id="radio1" value="option1">CSV
+</label>
+<label class="radio-inline nojump">
+  <input class="nojump" type="radio" name="filetype" id="radio2" value="option2">Excel 97-2003 (.xls)
+</label>
+<label class="radio-inline nojump">
+  <input class="nojump" type="radio" name="filetype" id="radio3" value="option3">Excel 2007+ (.xlsx)
+</label>
+</form>
+</div>
+
+<div id="exportbtndiv">
+<hr>
+<div class="alert alert-danger" id="checkwarning">
+  <strong>Whoops!</strong> Please select at least one point category to export.
+</div>
+<div class="alert alert-danger" id="datewarning">
+  <strong>Whoops!</strong> Please select dates to export.
+</div>
+<a href="#" class="btn btn-lg btn-success" role="button" id="exportbtn">Export Scores</a>
+
+</div>
+
+</div>
+</div>
+
+
+
+
+</div>
+</div><!--end export grade tab -->
+
 
 </div><!--   Ends tabs -->
 

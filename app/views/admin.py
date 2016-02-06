@@ -2,7 +2,10 @@ from flask import render_template, request, jsonify, json, Blueprint, url_for, r
 from app.models import User, Question, Options, Roomcode_Currques, asked_questions, asked_options, students_registered, class_settings
 from flask.ext.login import current_user
 from sqlalchemy.sql import and_
-import string, random
+from flask.ext import excel
+import pyexcel.ext.xlsx, pyexcel.ext.xls
+import string, random, os
+
 # Initiate Blueprint
 admin = Blueprint('admin', __name__, url_prefix='/admin')
 
@@ -151,8 +154,7 @@ def getresults():
  
     room_code = request.args.get('r')
     archid = request.args.get('aid')
-    print room_code
-    print archid
+ 
     # if only a roomcode is supplied, just get the last question, else get the archived question
     if str(archid) == "default":
         
@@ -320,8 +322,19 @@ def set_roomoptions():
     return jsonify(data=result)
 
 
+@admin.route("/save_grades", methods=['POST'])
+def save_grades():
+    data = request.get_json(force=True)
+    
+    data1 = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 
+    directory = "app/static/gradebookfiles/"+data['roomcode']
+    if not os.path.exists(directory):
+        os.makedirs(directory)
 
+    pyexcel.save_as(array=data1, dest_file_name=directory+"/example.xls")
+
+    return jsonify(result="success")
 
 
 

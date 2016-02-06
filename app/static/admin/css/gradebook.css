@@ -11,7 +11,7 @@
    text-align: center;   
 }
 
-.btn{
+.btnmod{
 
 	display: block;
 margin:auto;
@@ -69,4 +69,60 @@ padding: 5px
 	height: 36px;
 	display: inline-block;
 	
+}
+
+.btngroupmargin{
+margin:20px;
+
+}
+
+.subtext{
+
+	font-size: 14px;
+}
+
+.exportrow{
+	box-shadow: 1px 1px 2px 1px rgba(0,0,0,0.2);
+border-radius: 1px;
+
+ padding: 5px;
+ margin:10px;
+
+}
+
+.marginstyling{
+padding: 5px;
+ margin:10px;
+
+}
+
+#checkwarning{
+
+	display:none;
+}
+
+#datewarning{
+
+	display:none;
+}
+
+#pointopt{
+display:none;
+
+}
+
+#exportbtndiv{
+display:none;
+
+}
+
+#exporttypediv{
+display:none;
+
+
+}
+
+.nojump{
+border: 1px solid transparent;
+padding: 1px solid transparent;
 }

@@ -1,5 +1,8 @@
  $(document).ready(function(){
 
+try {
+    var isFileSaverSupported = !!new Blob;
+} catch (e) {window.alert("Your browser version is not supported, please update to newer version");}
 
 $('#partinput').on('input', function() { 
 	var oldval =  $(this).data('oldVal')
@@ -59,8 +62,8 @@ $.getJSON(gradebookscores_route, {
 			    +'<div class = "clickable padded textdisplay">'+data['studentdata'][s]['firstname']+'</div>'
 			    +'<div class="warningmsg padded" style="display:none"><div class="warning padded"><h4>'
 			    +'This will permanently change the name, is that ok?</h4></div>'
-			    +'<div class="row"><div class="col-sm-6"><button class="btn btn-block btn-success yesbtn padded"  type="button">Yes</button></div>'
-			    +'<div class="col-sm-6"><button class="btn btn-block btn-primary nobtn padded" type="button">No</button></div></div>'
+			    +'<div class="row"><div class="col-sm-6"><button class="btn btn-block btnmod btn-success yesbtn padded"  type="button">Yes</button></div>'
+			    +'<div class="col-sm-6"><button class="btn btn-block btn-primary btnmod nobtn padded" type="button">No</button></div></div>'
 			   +'</div>'
 			    +'</div>'
 			    +'</td>'
@@ -69,8 +72,8 @@ $.getJSON(gradebookscores_route, {
 			    +'<div class = "clickable padded textdisplay">'+data['studentdata'][s]['lastname']+'</div>'
 			    +'<div class="warningmsg padded" style="display:none"><div class="warning padded"><h4>'
 			    +'This will permanently change the name, is that ok?</h4></div>'
-			    +'<div class="row"><div class="col-sm-6"><button class="btn btn-block btn-success yesbtn padded"  type="button">Yes</button></div>'
-			    +'<div class="col-sm-6"><button class="btn btn-block btn-primary nobtn padded"  type="button">No</button></div></div>'
+			    +'<div class="row"><div class="col-sm-6"><button class="btn btn-block btnmod btn-success yesbtn padded"  type="button">Yes</button></div>'
+			    +'<div class="col-sm-6"><button class="btn btn-block btn-primary nobtn btnmod padded"  type="button">No</button></div></div>'
 			   	+'</div>'
 			    +'</div>'
 			    +'</td>'
@@ -206,12 +209,11 @@ for  (var s in data['studentdata']){
 			 for (var q in data['questiondata']){
 
 			 	corrdataheaderstring += ('<th class="qinfo" style="height:100px">' 		
-					+'<span class="datetime">'+data['questiondata'][q]['date']+'<br >'+data['questiondata'][q]['time']+'</span><br><a id = "a'+q+'" class="btn popoverData" href="#" data-content="'+data['questiondata'][q]['qtxt']+'" rel="popover" data-html="true" data-placement="bottom" data-original-title="Title: <b>'+data['questiondata'][q]['qname']+'</b>" data-trigger="hover">'+data['questiondata'][q]['qname']+'</a>'
+					+'<span class="datetime">'+data['questiondata'][q]['date']+'<br >'+data['questiondata'][q]['time']+'</span><br><a id = "a'+q+'" class="btn btnmod popoverData" href="#" data-content="'+data['questiondata'][q]['qtxt']+'" rel="popover" data-html="true" data-placement="bottom" data-original-title="Title: <b>'+data['questiondata'][q]['qname']+'</b>" data-trigger="hover">'+data['questiondata'][q]['qname']+'</a>'
 					+'</th>')							
 
 			}
 
-console.log(data['studentdata'])
 for  (var s in data['studentdata']){
 				
 				var namebodystring = null
@@ -273,8 +275,10 @@ $(".rowoverflow").css('overflow', 'auto')
 $(".nameoverflow").css('overflow', 'hidden')
 $(".headeroverflow").css('overflow', 'hidden')
 
-$(".gradetable td, th").css('width', '150px')
-$(".gradetable2 td, th").css('width', '150px')
+$(".gradetable td, th").css('width', '165px')
+$(".gradetable2 td, th").css('width', '165px')
+
+
 $(".gradetable2 a").css('text-overflow', 'ellipsis')
 $(".gradetable2 a ").css('overflow', 'hidden')
 $(".gradetable2 a").css('white-space', 'nowrap')
@@ -432,7 +436,116 @@ $.getJSON(setroomopts_route, {
 
 }//end correct ans points
 
+//show pointcategories
+$('input:checkbox').on('click', function(event) { 
+if ($("#typecheck input:checkbox:checked").length > 0)
+	{
+$('#pointopt').slideDown("slow");
 
+}
+	})
+
+//show exportselect
+$('#dateselect').change(function() { 
+
+	if ($("#dateselect").val() > 0){
+
+
+		$('#exporttypediv').slideDown("slow");
+
+	}
+
+	})
+
+//show export button
+$('#exporttypediv').change(function() { 
+
+$('#exportbtndiv').slideDown("slow");
+
+});
+
+//detect if option has changed and then send score
+$('.sendscore').change(function() { 
+$('#exportbtn').disable(true);
+//check if everything is complete, if it is then sendscore and makefile
+if ($("#typecheck input:checkbox:checked").length > 0 && $("#dateselect").val() > 0 && $("input:radio[name='filetype']").is(":checked"))
+{
+	
+	sendscores();
+
+}else{
+
+	if ($("#typecheck input:checkbox:checked").length <= 0){
+	$("#checkwarning").slideDown("slow");
+	$('#exportbtn').disable(true);
+	}
+	if ($("#dateselect").val() <= 0 && $("input:radio[name='filetype']").is(":checked")){
+		$("#datewarning").slideDown("slow");
+		$('#exportbtn').disable(true);
+	}
+}
+
+});
+
+
+
+//send scores and create file
+function sendscores() {
+
+
+var dataArray = {
+  "roomcode" : room_code
+};
+
+var dataJSON = JSON.stringify(dataArray);
+
+$.ajax({
+type: "POST",
+url: save_grades_route,
+data:  dataJSON,
+dataType: 'json',
+
+success: function(response){
+
+$('#exportbtn').disable(false);
+
+  },
+  error: function(error) {
+                
+                console.log('Error:', error);
+            }
 
 })
+
+
+}
+
+
+//stuff to get rid of warnings
+$('input:checkbox').on('click', function() { 
+ $("#checkwarning").slideUp("fast");
+})
+
+$('#dateselect').on('click', function() { 
+if ($("#dateselect").val() > 0 ){
+ $("#datewarning").slideUp("fast");
+}
+
+})
+
+//stuff to disable
+$('body').on('click', 'a.disabled', function(event) {
+    event.preventDefault();
+});
+jQuery.fn.extend({
+    disable: function(state) {
+        return this.each(function() {
+            var $this = $(this);
+            $this.toggleClass('disabled', state);
+        });
+    }
+});
+
+
+}) // end doc
 

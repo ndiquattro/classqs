@@ -13,6 +13,9 @@ var currqjson;
 var timer_reset_enabled = false;
 var currurl;
 var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWUYZ".split("");
+var monthNames = ["January", "February", "March", "April", "May", "June",
+"July", "August", "September", "October", "November", "December"];
+
 
 //get current question for room
  $.getJSON(getroomroute , {
@@ -469,8 +472,19 @@ function updateroomlabel(is_live){
 //function that updates the student room
 function sendstudentroom(islive, qjson){
 
+//get time and date for archving
+var d = new Date();
+var ampm = (d.getHours() >= 12) ? "PM" : "AM";
+var h = (d.getHours() > 12) ? d.getHours() - 12 : d.getHours();
+if(d.getHours == 0){h = 12}
+var datestr = monthNames[d.getMonth()] + " " +  d.getDate() + ", " + d.getFullYear()
+var timestr = h + ":" + d.getMinutes() +ampm;
+
+
 //check if live, if qjson is null look it up
 if(islive == 1 && qjson == null ){
+
+
 
  $.getJSON(getroomroute , {
         r: room_code,   
@@ -479,8 +493,11 @@ if(islive == 1 && qjson == null ){
       
         var dataArray = {
             "data" : data,
-            "roomcode" : room_code
+            "roomcode" : room_code,
+            "date" : datestr,
+            "time" : timestr
                   };
+
       var dataJSON = JSON.stringify(dataArray);
       $.ajax({
       type: "POST",
@@ -504,7 +521,9 @@ if(islive == 1 && qjson == null ){
   
 var dataArray = {
             "data" : qjson,
-            "roomcode" : room_code
+            "roomcode" : room_code,
+            "date" : datestr,
+            "time" : timestr
                   };
       var dataJSON = JSON.stringify(dataArray);
       $.ajax({
@@ -553,7 +572,6 @@ var dataArray = {
 
 //button to get the results of the question
 $('#resultbtn').on('click', function() {
-
 
  window.open(result_route, "", "width=1000, height=1000");
   }); 

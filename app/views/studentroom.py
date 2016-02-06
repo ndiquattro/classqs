@@ -107,8 +107,13 @@ def archive_asked_question():
     roomcode =  qinfo['roomcode']
     qdata =  qinfo['data']
     uid = current_user.id
-    date = datetime.date.today().strftime("%B %d, %Y")
-    time = datetime.datetime.now().strftime("%I:%M%p")
+
+    date = qinfo['date']
+    time = qinfo['time']
+    # date = datetime.date.today().strftime("%B %d, %Y")
+    # time = datetime.datetime.now().strftime("%I:%M%p")
+
+
     archid = asked_questions.add_asked_qestion(date, time, uid, roomcode, qdata['qname'], qdata['qtxt'], qdata['cora'], qdata['answers'])
     
     #add archid id to the current room so that users can get it if they didnt recieve last server push
